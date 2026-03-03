@@ -7,6 +7,9 @@ import {
 } from "../ui/accordion";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
+import { termsSchema, TermsFormValues } from "@/schemas/termSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 const items = [
   {
     value: "1",
@@ -30,6 +33,31 @@ const items = [
   },
 ];
 const Terms = () => {
+  const {
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { isValid },
+  } = useForm<TermsFormValues>({
+    resolver: zodResolver(termsSchema),
+    mode: "onChange",
+    defaultValues: {
+      age: false,
+      service: false,
+      privacy: false,
+      marketing: false,
+    },
+  });
+
+  const values = watch();
+
+  const allChecked =
+    values.age && values.service && values.privacy && values.marketing;
+
+  const onSubmit = (data: TermsFormValues) => {
+    console.log("약관 동의 완료:", data);
+  };
+
   return (
     <>
       <div className="flex flex-col m-6 h-screen ">

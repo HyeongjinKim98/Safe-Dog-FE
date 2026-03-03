@@ -13,4 +13,6 @@ export const termsSchema = z.object({
   marketing: z.boolean().optional(),
 });
 
-export type TermsFormValues = z.infer<typeof termsSchema>;
+export type TermsFormValues = {
+  agreements: Record<string, boolean>;
+};
