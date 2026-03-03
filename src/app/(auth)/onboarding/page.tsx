@@ -1,10 +1,10 @@
 import Terms from "@/components/onboarding/Terms";
-import Completed from "@/components/onboarding/Completed";
 export default function page() {
-  return(
+  return (
     <>
-    <Terms/>
-    <Completed/>
+      <div className="flex flex-col w-full h-screen">
+        <Terms />
+      </div>
     </>
   );
 }

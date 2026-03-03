@@ -1,7 +1,3 @@
-export default function Completed(){
-      return(
-            <>
-      completed!
-      </>
-      )
+export default function Completed() {
+  return <div>completed</div>;
 }
