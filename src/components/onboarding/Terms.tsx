@@ -36,7 +36,11 @@ const items = [
     required: false,
   },
 ];
-const Terms = () => {
+type TermsProps = {
+  nextStep: () => void;
+};
+
+const Terms = ({ nextStep }: TermsProps) => {
   const { handleSubmit, setValue, watch } = useForm<TermsFormValues>({
     resolver: zodResolver(termsSchema),
     defaultValues: {
@@ -121,6 +125,7 @@ const Terms = () => {
           type="submit"
           disabled={!requiredChecked}
           className="w-full h-12 mb-4 rounded-2xl text-lg mt-auto"
+          onClick={nextStep}
         >
           동의 완료
         </Button>
