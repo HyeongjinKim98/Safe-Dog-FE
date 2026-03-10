@@ -1,9 +1,9 @@
 "use client";
-import Completed from "@/views/onboarding/ui/Completed";
-import Terms from "@/views/onboarding/ui/Terms";
-import { useOnboardingStep } from "./model/useOnboardingSteps";
-export const OnboardingPage=()=> {
-  const { step, nextStep } = useOnboardingStep();
+import Completed from "./ui/Completed";
+import Terms from "./ui/Terms";
+import { useRegisterStep } from "./model/useRegisterSteps";
+export const RegisterPage=()=> {
+  const { step, nextStep } = useRegisterStep();
   if (step === "Terms") {
     return (
       <>
