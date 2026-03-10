@@ -1,6 +1,6 @@
 "use client";
-import Completed from "@/components/onboarding/Completed";
-import Terms from "@/components/onboarding/Terms";
+import Completed from "@/views/onboarding/Completed";
+import Terms from "@/views/onboarding/Terms";
 import { useState } from "react";
 export default function Page() {
   const [step, setStep] = useState<"Terms" | "Completed">("Terms");

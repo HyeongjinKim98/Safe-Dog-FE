@@ -1,4 +1,4 @@
-import { Button } from "../ui/button";
+import { Button } from "@/shared/ui/button";
 import { useRouter } from "next/navigation";
 export default function Completed() {
   const router = useRouter();
