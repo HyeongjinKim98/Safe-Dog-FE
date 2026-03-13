@@ -37,6 +37,18 @@ export const LoginPage = () => {
       >
         반려동물 등록
       </Button>
+      <Button
+        className="w-72 rounded-full h-12"
+        onClick={() => router.push("/onboarding")}
+      >
+        온보딩
+      </Button>
+      <Button
+        className="w-72 rounded-full h-12"
+        onClick={() => router.push("/signup")}
+      >
+        약관
+      </Button>
     </div>
   );
 };

@@ -17,7 +17,7 @@ export default function Completed() {
       <Button
         type="submit"
         className="w-full h-12 mb-4 rounded-2xl text-lg mt-auto"
-        onClick={() => router.push("/home")}
+        onClick={() => router.push("/")}
       >
         홈으로
       </Button>
