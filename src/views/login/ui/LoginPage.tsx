@@ -1,7 +1,9 @@
 "use client";
 import { Button } from "@/shared/ui/button";
+import { useRouter } from "next/navigation";
 const oauth_url = `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization`;
 export const LoginPage = () => {
+  const router = useRouter();
   const handleLogin = (provider: "GOOGLE" | "naver" | "kakao") => {
     window.location.href = `${oauth_url}/GOOGLE`;
   };
@@ -28,6 +30,12 @@ export const LoginPage = () => {
         onClick={() => handleLogin("kakao")}
       >
         카카오 로그인
+      </Button>
+      <Button
+        className="w-72 rounded-full h-12"
+        onClick={() => router.push("/register")}
+      >
+        반려동물 등록
       </Button>
     </div>
   );

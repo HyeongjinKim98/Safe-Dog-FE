@@ -48,16 +48,11 @@ export function usePetRegistrationForm() {
     setCurrentStep((prev) => Math.max(prev - 1, 1) as Step);
   };
 
-  const onSubmit = form.handleSubmit((data) => {
-    console.log(data);
-  });
-
   return {
     form,
     currentStep,
     totalSteps: STEPS.length,
     goNext,
     goPrev,
-    onSubmit,
   };
 }
