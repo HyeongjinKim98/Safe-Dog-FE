@@ -2,7 +2,8 @@
 import { useRegisterStep } from "../model/useRegisterSteps";
 import { useRouter } from "next/navigation";
 import { Button } from "@/shared/ui/button";
-
+import { Header } from "@/widgets/Header";
+import { CommonLayout } from "../../../widgets/CommonLayout";
 const TOTAL_STEPS = 3;
 const SLIDES = [
   {
@@ -22,7 +23,8 @@ export const OnboardingPage = () => {
   const { step, nextStep, prevStep } = useRegisterStep();
   return (
     <>
-      <div className="flex flex-col w-full h-screen">
+        <CommonLayout>
+          <Header right ={<button onClick={()=>router.push('/login')}>SKIP</button>}/>
         <div className="h-full flex flex-col items-center justify-center whitespace-pre-line text-center">
           <div className="text-2xl font-bold whitespace-pre-line">
             {SLIDES[step].title}
@@ -65,7 +67,7 @@ export const OnboardingPage = () => {
             </Button>
           )}
         </div>
-      </div>
+        </CommonLayout>
     </>
   );
 };

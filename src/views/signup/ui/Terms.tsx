@@ -1,13 +1,14 @@
 "use client";
+
 import {
   Accordion,
   AccordionItem,
   AccordionContent,
   AccordionTrigger,
-} from "../ui/accordion";
-import { Button } from "../ui/button";
-import { Checkbox } from "../ui/checkbox";
-import { termsSchema, TermsFormValues } from "@/schemas/termSchema";
+} from "@/shared/ui/accordion";
+import { Checkbox } from "@/shared/ui/checkbox";
+import { termsSchema, TermsFormValues } from "@/entities/terms/termSchema";
+import { Button } from "@/shared/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 const items = [

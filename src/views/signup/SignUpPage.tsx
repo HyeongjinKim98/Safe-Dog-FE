@@ -1,9 +1,9 @@
 "use client";
 import Completed from "./ui/Completed";
 import Terms from "./ui/Terms";
-import { useRegisterStep } from "./model/useRegisterSteps";
-export const RegisterPage=()=> {
-  const { step, nextStep } = useRegisterStep();
+import { useSignupStep } from "./model/useSignupStep";
+export const SignUpPage = () => {
+  const { step, nextStep } = useSignupStep();
   if (step === "Terms") {
     return (
       <>
@@ -20,4 +20,4 @@ export const RegisterPage=()=> {
       </div>
     </>
   );
-}
+};
