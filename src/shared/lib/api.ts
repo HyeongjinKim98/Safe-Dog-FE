@@ -1,10 +1,10 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-interface RequestOptions extends RequestInit{
+export interface RequestOptions extends RequestInit{
       token? : string;
 }
 
-const apiClient = async<T>(
+export const apiClient = async<T>(
             endpoint : string,
             options : RequestOptions={}
             ): Promise<T> =>{
