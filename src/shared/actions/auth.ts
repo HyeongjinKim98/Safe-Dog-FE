@@ -13,5 +13,4 @@ export const testLogin = async(email:string)=>{
             `/api/auth/test-login?email=${email}`,{}
       )
       await serverApi.setToken(accessToken, refreshToken,accessTokenExpiresIn)
-
 }

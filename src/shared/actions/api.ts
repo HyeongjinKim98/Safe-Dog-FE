@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { apiClient,RequestOptions } from "../lib/api";
+import { RequestOptions } from "../lib/api";
 
 const getToken= async()=>{
       const cookieStore = await cookies();
@@ -22,6 +22,12 @@ const setToken = async (accessToken: string, refreshToken : string, accessTokenE
     maxAge: accessTokenExpiresIn * 7,
     path: '/',
   })
+}
+
+const removeTokens = async()=>{
+      const cookieStore = await cookies();
+      cookieStore.delete('accessToken');
+      cookieStore.delete('refreshToken');
 }
 
 export const serverApi = {
