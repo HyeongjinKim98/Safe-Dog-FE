@@ -29,7 +29,7 @@ export default function PetCareCard() {
         })}
       </div>
 
-      <Card className="flex flex-col h-80 rounded-t-none rounded-b-2xl bg-[#959596] border-none shadow-none">
+      <Card className="flex flex-col h-60 rounded-t-none rounded-b-2xl bg-[#959596] border-none shadow-none">
         <CardContent className="h-full flex flex-col pt-6 pb-6 px-5">
           <p className="text-xl text-white whitespace-break-spaces">
             체크리스트를 추가하여{"\n"}

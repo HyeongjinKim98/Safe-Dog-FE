@@ -11,7 +11,7 @@ interface IBottomNavigationProps {
 export const BottomNavigation = () => {
   return (
     <div className="bg-white p-4 pb-12">
-      <div className="sticky bottom-4 mx-4 flex items-center justify-between px-6 h-20 bg-gray-600 rounded-full">
+      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between px-6 h-20 bg-gray-600 rounded-full">
         <p className="text-white"> Bottom Navigation(developing)</p>
       </div>
     </div>
