@@ -8,7 +8,9 @@ export const CommonLayout = ({
   backgroundColor = "bg-white",
 }: ICommonLayoutProps) => {
   return (
-    <div className={`flex flex-col w-full h-screen ${backgroundColor}`}>
+    <div
+      className={`relative flex flex-col w-full h-screen ${backgroundColor}`}
+    >
       {children}
     </div>
   );
