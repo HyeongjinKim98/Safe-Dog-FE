@@ -5,16 +5,14 @@ import { BASIC_CARE_ITEMS } from "../model/constants";
 import { useState } from "react";
 import { Button } from "@/shared/ui/button";
 
-export const SelectBasicCare = () => {
-  const [selected, setSelected] = useState<BasicCareType[]>([]);
+interface Props {
+  selected: BasicCareType[];
+  toggle: (key: BasicCareType) => void;
+  onConfirm: () => void;
+}
 
-  const toggle = (key: BasicCareType) => {
-    setSelected((prev) =>
-      prev.includes(key) ? prev.filter((v) => v !== key) : [...prev, key],
-    );
-  };
+export const SelectBasicCare = ({ selected, toggle, onConfirm }: Props) => {
   const isSelected = (key: BasicCareType) => selected.includes(key);
-
   return (
     <div className="p-6">
       <div className="sticky top-0 flex my-4">
@@ -46,6 +44,7 @@ export const SelectBasicCare = () => {
 
       <div className="sticky bottom-6 left-0 right-0 flex justify-center px-6">
         <Button
+          onClick={onConfirm}
           disabled={selected.length === 0}
           className="w-full h-12 rounded-full"
         >

@@ -9,7 +9,7 @@ import { Plus } from "lucide-react";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SelectBasicCare } from "./selectBasicCare";
-import { Select } from "radix-ui";
+import { BASIC_CARE_ITEMS } from "../model/constants";
 interface PrevButtonProps {
   mode: ModeType;
   setMode: (type: ModeType) => void;
@@ -38,7 +38,15 @@ const PrevButton = ({ mode, setMode }: PrevButtonProps) => {
 };
 
 export const CreatePetNotePage = () => {
-  const { mode, setMode, careTab, setCareTab } = useCreateNoteState();
+  const {
+    mode,
+    setMode,
+    careTab,
+    setCareTab,
+    activeBasicNotes,
+    activeDiseaseNotes,
+    toggleBasicNote,
+  } = useCreateNoteState();
   return (
     <CommonLayout>
       <Header
@@ -71,9 +79,24 @@ export const CreatePetNotePage = () => {
           </Button>
         </div>
       )}
-      {mode === "select" && careTab === "basic" && <SelectBasicCare />}
+      {mode === "select" && careTab === "basic" && (
+        <SelectBasicCare
+          selected={activeBasicNotes}
+          toggle={toggleBasicNote}
+          onConfirm={() => setMode("create")}
+        />
+      )}
       {mode === "select" && careTab === "disease" && <div>질병케어 고르기</div>}
-      {mode === "create" && careTab === "basic" && <div>기본케어 생성</div>}
+      {mode === "create" && careTab === "basic" && (
+        <div className="flex flex-col gap-4 p-4">
+          {activeBasicNotes.map((noteKey) => {
+            const label = BASIC_CARE_ITEMS.find(
+              (e) => e.key === noteKey,
+            )?.label;
+            return <div key={noteKey}>{label} 폼</div>;
+          })}
+        </div>
+      )}
       {mode === "create" && careTab === "disease" && <div>질병케어 생성</div>}
     </CommonLayout>
   );
