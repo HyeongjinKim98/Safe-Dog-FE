@@ -3,8 +3,8 @@ import { useState } from "react";
 import { BasicCareType, DiseaseCareType, ModeType, CareType } from "./type";
 export type TabType = "basic" | "disease";
 export const useCreateNoteState = (initialTab: TabType = "basic") => {
-  const [tab, setTab] = useState<CareType>("basic");
   const [careTab, setCareTab] = useState<CareType>("basic");
+  const [mode, setMode] = useState<ModeType>("create");
   const [activeBasicNotes, setActiveBasicNotes] = useState<BasicCareType[]>([]);
   const [activeDiseaseNotes, setActiveDiseaseNotes] = useState<
     DiseaseCareType[]
@@ -25,8 +25,8 @@ export const useCreateNoteState = (initialTab: TabType = "basic") => {
   return {
     mode,
     setMode,
-    tab,
-    setTab,
+    careTab,
+    setCareTab,
     activeBasicNotes,
     activeDiseaseNotes,
     toggleBasicNote,
