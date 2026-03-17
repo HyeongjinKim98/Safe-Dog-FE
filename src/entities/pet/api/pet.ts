@@ -63,5 +63,35 @@ export async function getPetList(): Promise<Pet[]> {
       createdAt: "2025-03-22T14:30:00.000Z",
       updatedAt: "2026-06-01T10:00:00.000Z",
     },
+    {
+      id: 3,
+      userId: 101,
+      name: "나비",
+      species: "고양이",
+      breed: "숏헤어",
+      birthDate: "2021-11-03",
+      gender: "FEMALE",
+      profileImageUrl:
+        "https://media.istockphoto.com/id/1443562748/ko/%EC%82%AC%EC%A7%84/%EA%B7%80%EC%97%AC%EC%9A%B4-%EC%83%9D%EA%B0%95-%EA%B3%A0%EC%96%91%EC%9D%B4.jpg?s=612x612&w=is&k=20&c=FUBu5_tWdys-knmbWcf-CWx-knovRemsVf4UrFq_imA=",
+      diseases: ["DIABETES"],
+      neutered: false,
+      createdAt: "2025-03-22T14:30:00.000Z",
+      updatedAt: "2026-06-01T10:00:00.000Z",
+    },
+    {
+      id: 4,
+      userId: 101,
+      name: "나비",
+      species: "고양이",
+      breed: "숏헤어",
+      birthDate: "2021-11-03",
+      gender: "FEMALE",
+      profileImageUrl:
+        "https://media.istockphoto.com/id/1443562748/ko/%EC%82%AC%EC%A7%84/%EA%B7%80%EC%97%AC%EC%9A%B4-%EC%83%9D%EA%B0%95-%EA%B3%A0%EC%96%91%EC%9D%B4.jpg?s=612x612&w=is&k=20&c=FUBu5_tWdys-knmbWcf-CWx-knovRemsVf4UrFq_imA=",
+      diseases: ["DIABETES"],
+      neutered: false,
+      createdAt: "2025-03-22T14:30:00.000Z",
+      updatedAt: "2026-06-01T10:00:00.000Z",
+    },
   ];
 }

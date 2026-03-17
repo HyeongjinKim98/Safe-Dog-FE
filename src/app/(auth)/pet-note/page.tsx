@@ -1,4 +1,4 @@
-import { PetNotePage } from "@/views/pet-note/ui/petNotePage";
+import { CheckListPage } from "@/views/checklist/ui/checklistPage";
 export default function page() {
-  return <PetNotePage />;
+  return <CheckListPage />;
 }
