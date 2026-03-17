@@ -19,7 +19,7 @@ export const PetNotePage = async () => {
       />
       <ManageGuardians guardians={guardians} />
       <PetStatus />
-      <div className="bg-white">hi</div>
+      <div className="bg-white h-screen">hi</div>
     </CommonLayout>
   );
 };
