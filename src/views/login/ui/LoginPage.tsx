@@ -1,12 +1,16 @@
 "use client";
 import { Button } from "@/shared/ui/button";
 import { useRouter } from "next/navigation";
+import { testLogin } from "@/shared/actions/auth";
 const oauth_url = `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization`;
 export const LoginPage = () => {
   const router = useRouter();
   const handleLogin = (provider: "GOOGLE" | "naver" | "kakao") => {
     window.location.href = `${oauth_url}/GOOGLE`;
   };
+  const test = async () => {
+    const response = await testLogin('test@gmail.com')
+  }
   return (
     <div className="flex flex-col w-full gap-2 p-4 items-center ">
       <div className="w-40 h-40 bg-black rounded-full"></div>
@@ -48,6 +52,12 @@ export const LoginPage = () => {
         onClick={() => router.push("/signup")}
       >
         약관
+      </Button>
+      <Button
+        className="w-72 rounded-full h-12"
+        onClick={test}
+      >
+        테스트로그인
       </Button>
     </div>
   );

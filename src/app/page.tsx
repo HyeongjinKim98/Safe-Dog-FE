@@ -1,9 +1,18 @@
 "use client";
 export default function Home() {
+<<<<<<< HEAD
+=======
   const fetchAPI = async () => {
-    const response = fetch("http://3.37.178.116:8080/api/test");
-    console.log(response);
-  };
+    try {
+      const url = process.env.NEXT_PUBLIC_URL;
+      console.log("url:", url);
+      const response = await fetch(`${url}/test`);
+      console.log("status:", response.status);
+    } catch (e) {
+      console.error("fetch error:", e);
+    };
+  }
+>>>>>>> ebd5a5cfde74ee1382f721e1d0e3cbea7e24cad3
   async function handlePushTest() {
     try {
       if (!("Notification" in window)) {
