@@ -1,9 +1,15 @@
-import { ReactNode } from "react"
+import { ReactNode } from "react";
 interface ICommonLayoutProps {
-  children: ReactNode
+  children: ReactNode;
+  backgroundColor?: string;
 }
-export const CommonLayout = ({ children }: ICommonLayoutProps) => {
+export const CommonLayout = ({
+  children,
+  backgroundColor = "bg-white",
+}: ICommonLayoutProps) => {
   return (
-    <div className="flex flex-col w-full h-screen">{children}</div>
-  )
-}
+    <div className={`flex flex-col w-full h-screen ${backgroundColor}`}>
+      {children}
+    </div>
+  );
+};
