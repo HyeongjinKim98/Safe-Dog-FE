@@ -9,8 +9,8 @@ export const LoginPage = () => {
     window.location.href = `${oauth_url}/GOOGLE`;
   };
   const test = async () => {
-    const response = await testLogin('test@gmail.com')
-  }
+    const response = await testLogin("test@gmail.com");
+  };
   return (
     <div className="flex flex-col w-full gap-2 p-4 items-center ">
       <div className="w-40 h-40 bg-black rounded-full"></div>
@@ -53,11 +53,14 @@ export const LoginPage = () => {
       >
         약관
       </Button>
+      <Button className="w-72 rounded-full h-12" onClick={test}>
+        테스트로그인
+      </Button>
       <Button
         className="w-72 rounded-full h-12"
-        onClick={test}
+        onClick={() => router.push("/pet-note")}
       >
-        테스트로그인
+        반려노트
       </Button>
     </div>
   );

@@ -9,7 +9,7 @@ export default function PetCareCard() {
   const [activeTab, setActiveTab] = useState("기본 케어");
 
   return (
-    <div className="w-full p-8 h-screen bg-white rounded-t-3xl">
+    <div className="w-full p-8 bg-white rounded-t-3xl">
       <div className="mb-4 text-xl font-bold">오늘의 체크리스트</div>
       <div className="flex h-14">
         {tabs.map((tab) => {
