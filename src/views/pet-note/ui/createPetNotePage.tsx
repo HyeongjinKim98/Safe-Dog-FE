@@ -10,7 +10,8 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SelectBasicCare } from "./selectBasicCare";
 import { BASIC_CARE_ITEMS } from "../model/constants";
-import { MealNoteForm } from "@/features/basicCare/MealCareForm";
+import { MealNoteForm } from "@/features/basicCare/MealNoteForm";
+import { SnackNoteForm } from "@/features/basicCare/SnackNoteForm";
 interface PrevButtonProps {
   mode: ModeType;
   setMode: (type: ModeType) => void;
@@ -19,7 +20,10 @@ const TABS: { key: TabType; label: string }[] = [
   { key: "basic", label: "기본케어" },
   { key: "disease", label: "질병케어" },
 ];
-
+const FORM_MAP: Record<string, React.ReactNode> = {
+  meal: <MealNoteForm />,
+  snack: <SnackNoteForm />,
+};
 const PrevButton = ({ mode, setMode }: PrevButtonProps) => {
   const router = useRouter();
 
@@ -94,10 +98,10 @@ export const CreatePetNotePage = () => {
             const label = BASIC_CARE_ITEMS.find(
               (e) => e.key === noteKey,
             )?.label;
-            return noteKey === "meal" ? (
-              <MealNoteForm key={noteKey} />
-            ) : (
-              <div key={noteKey}>{label} 폼</div>
+            return (
+              <div key={noteKey}>
+                {FORM_MAP[noteKey] ?? <div>{label} 폼</div>}
+              </div>
             );
           })}
         </div>
