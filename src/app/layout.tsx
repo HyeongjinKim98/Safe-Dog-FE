@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-
+import { Toaster } from "sonner";
 export const viewport: Viewport = {
   themeColor: "#e1ccff",
   width: "device-width",
@@ -32,6 +32,7 @@ export default function RootLayout({
         <div className="flex min-h-screen items-center justify-center bg-zinc-50 dark:bg-black">
           <main className="flex min-h-screen w-full max-w-xl flex-col items-center bg-white dark:bg-black sm:items-start">
             {children}
+            <Toaster />
           </main>
         </div>
       </body>

@@ -10,6 +10,7 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SelectBasicCare } from "./selectBasicCare";
 import { BASIC_CARE_ITEMS } from "../model/constants";
+import { MealNoteForm } from "@/features/basicCare/MealCareForm";
 interface PrevButtonProps {
   mode: ModeType;
   setMode: (type: ModeType) => void;
@@ -93,7 +94,11 @@ export const CreatePetNotePage = () => {
             const label = BASIC_CARE_ITEMS.find(
               (e) => e.key === noteKey,
             )?.label;
-            return <div key={noteKey}>{label} 폼</div>;
+            return noteKey === "meal" ? (
+              <MealNoteForm key={noteKey} />
+            ) : (
+              <div key={noteKey}>{label} 폼</div>
+            );
           })}
         </div>
       )}
