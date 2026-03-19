@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/shared/ui/textarea";
 import { Sheet, SheetContent } from "@/shared/ui/sheet";
 import {
   Select,
@@ -11,38 +12,51 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui/select";
-import { Trash2, Image } from "lucide-react";
+import { Trash2, X, Image } from "lucide-react";
 import { toast } from "sonner";
+
+// ─────────────────────────────────────────────
+// Types
+// ─────────────────────────────────────────────
 
 type MealTime = "아침" | "점심" | "저녁" | "직접입력";
 
-interface SupplementItem {
+interface MedicineItem {
   name: string;
   count: string;
   image: File | null;
   imagePreview: string | null;
 }
 
-interface SupplementRecord {
+interface MedicineRecord {
   time: string;
-  item: SupplementItem;
+  item: MedicineItem;
 }
+
+// ─────────────────────────────────────────────
+// Constants
+// ─────────────────────────────────────────────
 
 const MEAL_TIMES: MealTime[] = ["아침", "점심", "저녁", "직접입력"];
 
-const createEmptySupplement = (): SupplementItem => ({
+const createEmptyMedicine = (): MedicineItem => ({
   name: "",
   count: "1",
   image: null,
   imagePreview: null,
 });
 
-export const SupplementNoteForm = () => {
+// ─────────────────────────────────────────────
+// Main Component
+// ─────────────────────────────────────────────
+
+export const MedicineNoteForm = () => {
   const [selectedTime, setSelectedTime] = useState<MealTime | null>(null);
   const [customTime, setCustomTime] = useState("");
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [draft, setDraft] = useState<SupplementItem>(createEmptySupplement());
-  const [registered, setRegistered] = useState<SupplementRecord | null>(null);
+  const [draft, setDraft] = useState<MedicineItem>(createEmptyMedicine());
+  const [note, setNote] = useState("");
+  const [registered, setRegistered] = useState<MedicineRecord | null>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -61,13 +75,13 @@ export const SupplementNoteForm = () => {
       toast.error("시간대를 입력해주세요.");
       return;
     }
-    setDraft(createEmptySupplement());
+    setDraft(createEmptyMedicine());
     setIsSheetOpen(true);
   };
 
   const handleComplete = () => {
     if (!draft.name.trim()) {
-      toast.error("영양제 정보를 입력해주세요.");
+      toast.error("의약품 정보를 입력해주세요.");
       return;
     }
     const time =
@@ -75,7 +89,7 @@ export const SupplementNoteForm = () => {
     setRegistered({ time, item: draft });
     toast.success("추가되었습니다.");
     setIsSheetOpen(false);
-    setDraft(createEmptySupplement());
+    setDraft(createEmptyMedicine());
     setSelectedTime(null);
     setCustomTime("");
   };
@@ -86,13 +100,15 @@ export const SupplementNoteForm = () => {
 
   return (
     <div className="border border-gray-200 rounded-lg p-4 flex flex-col gap-4 bg-white">
+      {/* 헤더 */}
       <div className="flex items-center justify-between">
-        <span className="font-semibold text-sm">💊 영양제</span>
+        <span className="font-semibold text-sm">💉 의약복용</span>
         <button className="text-gray-400">
           <Trash2 className="w-4 h-4" />
         </button>
       </div>
 
+      {/* 시간대 */}
       <div className="flex flex-col gap-2">
         <span className="text-sm">시간대</span>
         <div className="grid grid-cols-4 gap-2">
@@ -119,16 +135,18 @@ export const SupplementNoteForm = () => {
         )}
       </div>
 
+      {/* 의약품 정보 입력 버튼 */}
       <div className="flex items-center justify-between">
-        <span className="text-sm text-gray-600">영양제 정보 (선택)</span>
+        <span className="text-sm text-gray-600">의약품 정보 (선택)</span>
         <button
           onClick={handleOpenSheet}
           className="text-sm text-gray-400 border border-gray-200 rounded-lg px-3 py-2"
         >
-          영양제 정보 입력
+          의약품 정보 입력
         </button>
       </div>
 
+      {/* 등록된 의약품 */}
       {registered && (
         <div className="flex items-center gap-2 py-2 border-t">
           <div className="w-9 h-9 rounded-full overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
@@ -139,7 +157,7 @@ export const SupplementNoteForm = () => {
                 className="w-full h-full object-cover"
               />
             ) : (
-              <span className="text-base">💊</span>
+              <span className="text-base">💉</span>
             )}
           </div>
 
@@ -181,11 +199,24 @@ export const SupplementNoteForm = () => {
         </div>
       )}
 
+      {/* 복약 특이사항 */}
+      <div className="flex flex-col gap-2">
+        <span className="text-sm text-gray-600">복약 특이사항 (선택)</span>
+        <Textarea
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          placeholder="특이사항을 입력해주세요"
+          className="resize-none text-sm"
+          rows={3}
+        />
+      </div>
+
+      {/* 바텀시트 */}
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetContent side="bottom" className="rounded-t-xl px-5 pb-8">
           <div className="flex items-center justify-between py-4 mb-2">
             <span className="text-base font-semibold">
-              영양제 정보를 입력해주세요
+              의약품 정보를 입력해주세요
             </span>
           </div>
 
@@ -224,9 +255,22 @@ export const SupplementNoteForm = () => {
               <div className="relative w-24 h-24">
                 <img
                   src={draft.imagePreview}
-                  alt="영양제 미리보기"
+                  alt="의약품 미리보기"
                   className="w-full h-full object-cover rounded-lg border border-gray-200"
                 />
+                <button
+                  type="button"
+                  onClick={() =>
+                    setDraft((prev) => ({
+                      ...prev,
+                      image: null,
+                      imagePreview: null,
+                    }))
+                  }
+                  className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-gray-600 rounded-full flex items-center justify-center"
+                >
+                  <X className="w-3 h-3 text-white" />
+                </button>
               </div>
             )}
 
