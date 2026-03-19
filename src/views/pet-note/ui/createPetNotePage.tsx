@@ -17,6 +17,7 @@ import { MedicineNoteForm } from "@/features/basicCare/MedicineNoteForm";
 import { PadNoteForm } from "@/features/basicCare/PadNoteForm";
 import { WaterNoteForm } from "@/features/basicCare/WaterNoteForm";
 import { WalkNoteForm } from "@/features/basicCare/WalkNoteForm";
+import { WeightNoteForm } from "@/features/basicCare/WeightNoteForm";
 interface PrevButtonProps {
   mode: ModeType;
   setMode: (type: ModeType) => void;
@@ -33,6 +34,7 @@ const FORM_MAP: Record<string, React.ReactNode> = {
   pad: <PadNoteForm />,
   water: <WaterNoteForm />,
   walk: <WalkNoteForm />,
+  weight: <WeightNoteForm />,
 };
 const PrevButton = ({ mode, setMode }: PrevButtonProps) => {
   const router = useRouter();
