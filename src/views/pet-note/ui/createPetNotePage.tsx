@@ -3,7 +3,7 @@ import { CommonLayout } from "@/widgets/CommonLayout";
 import { Header } from "@/widgets/Header";
 import { useCreateNoteState } from "../model/useCreateNoteState";
 import { TabType } from "../model/useCreateNoteState";
-import { ModeType } from "../model/type";
+import { BasicCareType, DiseaseCareType, ModeType } from "../model/type";
 import { Button } from "@/shared/ui/button";
 import { Plus } from "lucide-react";
 import { ArrowLeft } from "lucide-react";
@@ -18,12 +18,29 @@ import { PadNoteForm } from "@/features/basicCare/PadNoteForm";
 import { WaterNoteForm } from "@/features/basicCare/WaterNoteForm";
 import { WalkNoteForm } from "@/features/basicCare/WalkNoteForm";
 import { WeightNoteForm } from "@/features/basicCare/WeightNoteForm";
-import { DiseaseCareType } from "../model/type";
 import {
   DiseaseCareForm,
   DISEASE_TEMPLATES,
 } from "@/features/diseaseCare/diseaseCareForm";
 import { SelectDiseaseCare } from "./selectDiseaseCare";
+
+export interface FormProps {
+  onDelete: () => void;
+  onDataChange: (data: unknown) => void;
+}
+
+const BASIC_FORM_COMPONENTS: Partial<
+  Record<BasicCareType, React.ComponentType<FormProps>>
+> = {
+  meal: MealNoteForm,
+  snack: SnackNoteForm,
+  supplement: SupplementNoteForm,
+  medicine: MedicineNoteForm,
+  pad: PadNoteForm,
+  water: WaterNoteForm,
+  walk: WalkNoteForm,
+  weight: WeightNoteForm,
+};
 interface PrevButtonProps {
   mode: ModeType;
   setMode: (type: ModeType) => void;
@@ -32,16 +49,6 @@ const TABS: { key: TabType; label: string }[] = [
   { key: "basic", label: "기본케어" },
   { key: "disease", label: "질병케어" },
 ];
-const FORM_MAP: Record<string, React.ReactNode> = {
-  meal: <MealNoteForm />,
-  snack: <SnackNoteForm />,
-  supplement: <SupplementNoteForm />,
-  medicine: <MedicineNoteForm />,
-  pad: <PadNoteForm />,
-  water: <WaterNoteForm />,
-  walk: <WalkNoteForm />,
-  weight: <WeightNoteForm />,
-};
 
 const DISEASE_KEY_MAP: Record<DiseaseCareType, string> = {
   heart: "heart",
@@ -80,6 +87,11 @@ export const CreatePetNotePage = () => {
     activeDiseaseNotes,
     toggleBasicNote,
     toggleDiseaseNote,
+    removeBasicNote,
+    removeDiseaseNote,
+    setBasicData,
+    setDiseaseData,
+    submitPayload,
   } = useCreateNoteState();
   return (
     <CommonLayout>
@@ -130,12 +142,22 @@ export const CreatePetNotePage = () => {
       {mode === "create" && careTab === "basic" && (
         <div className="flex flex-col gap-4 p-4">
           {activeBasicNotes.map((noteKey) => {
+            const FormComponent = BASIC_FORM_COMPONENTS[noteKey];
             const label = BASIC_CARE_ITEMS.find(
               (e) => e.key === noteKey,
             )?.label;
             return (
               <div key={noteKey}>
-                {FORM_MAP[noteKey] ?? <div>{label} 폼</div>}
+                {FormComponent ? (
+                  <FormComponent
+                    onDelete={() => removeBasicNote(noteKey)}
+                    onDataChange={(data: unknown) =>
+                      setBasicData(noteKey, data)
+                    }
+                  />
+                ) : (
+                  <div>{label} 폼</div>
+                )}
               </div>
             );
           })}
@@ -149,10 +171,24 @@ export const CreatePetNotePage = () => {
               (t) => t.key === templateKey,
             );
             if (!template) return null;
-            return <DiseaseCareForm key={noteKey} template={template} />;
+            return (
+              <DiseaseCareForm
+                key={noteKey}
+                template={template}
+                onDelete={() => removeDiseaseNote(noteKey)}
+                onDataChange={(data: unknown) => setDiseaseData(noteKey, data)}
+              />
+            );
           })}
         </div>
       )}
+      <Button
+        onClick={() => {
+          console.log(submitPayload);
+        }}
+      >
+        hi
+      </Button>
     </CommonLayout>
   );
 };

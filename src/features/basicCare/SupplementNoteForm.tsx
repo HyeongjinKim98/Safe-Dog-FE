@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent } from "@/shared/ui/sheet";
@@ -37,12 +37,25 @@ const createEmptySupplement = (): SupplementItem => ({
   imagePreview: null,
 });
 
-export const SupplementNoteForm = () => {
+interface Props {
+  onDelete: () => void;
+  onDataChange: (data: unknown) => void;
+}
+
+export const SupplementNoteForm = ({ onDelete, onDataChange }: Props) => {
   const [selectedTime, setSelectedTime] = useState<MealTime | null>(null);
   const [customTime, setCustomTime] = useState("");
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [draft, setDraft] = useState<SupplementItem>(createEmptySupplement());
   const [registered, setRegistered] = useState<SupplementRecord | null>(null);
+
+  const onDataChangeRef = useRef(onDataChange);
+  useEffect(() => {
+    onDataChangeRef.current = onDataChange;
+  });
+  useEffect(() => {
+    onDataChangeRef.current(registered);
+  }, [registered]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -88,7 +101,7 @@ export const SupplementNoteForm = () => {
     <div className="border border-gray-200 rounded-lg p-4 flex flex-col gap-4 bg-white">
       <div className="flex items-center justify-between">
         <span className="font-semibold text-sm">💊 영양제</span>
-        <button className="text-gray-400">
+        <button onClick={onDelete} className="text-gray-400">
           <Trash2 className="w-4 h-4" />
         </button>
       </div>

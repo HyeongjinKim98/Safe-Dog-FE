@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/shared/ui/textarea";
 import { Switch } from "@/shared/ui/switch";
@@ -99,9 +99,11 @@ interface CheckItem {
 
 interface Props {
   template: DiseaseTemplate;
+  onDelete: () => void;
+  onDataChange: (data: unknown) => void;
 }
 
-export const DiseaseCareForm = ({ template }: Props) => {
+export const DiseaseCareForm = ({ template, onDelete, onDataChange }: Props) => {
   const [items, setItems] = useState<CheckItem[]>(
     template.defaultItems.map((label) => ({
       id: crypto.randomUUID(),
@@ -112,6 +114,14 @@ export const DiseaseCareForm = ({ template }: Props) => {
   );
   const [customInput, setCustomInput] = useState("");
   const [memo, setMemo] = useState("");
+
+  const onDataChangeRef = useRef(onDataChange);
+  useEffect(() => {
+    onDataChangeRef.current = onDataChange;
+  });
+  useEffect(() => {
+    onDataChangeRef.current({ items, memo });
+  }, [items, memo]);
 
   const toggleItem = (id: string) => {
     setItems((prev) =>
@@ -145,7 +155,7 @@ export const DiseaseCareForm = ({ template }: Props) => {
         <span className="font-semibold text-sm">
           {template.emoji} {template.label}
         </span>
-        <button className="text-gray-400">
+        <button onClick={onDelete} className="text-gray-400">
           <Trash2 className="w-4 h-4" />
         </button>
       </div>

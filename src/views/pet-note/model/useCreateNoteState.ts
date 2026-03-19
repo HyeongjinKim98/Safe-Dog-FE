@@ -1,14 +1,20 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { BasicCareType, DiseaseCareType, ModeType, CareType } from "./type";
 export type TabType = "basic" | "disease";
-export const useCreateNoteState = (initialTab: TabType = "basic") => {
+export const useCreateNoteState = () => {
   const [careTab, setCareTab] = useState<CareType>("basic");
   const [mode, setMode] = useState<ModeType>("create");
   const [activeBasicNotes, setActiveBasicNotes] = useState<BasicCareType[]>([]);
   const [activeDiseaseNotes, setActiveDiseaseNotes] = useState<
     DiseaseCareType[]
   >([]);
+  const [basicFormData, setBasicFormData] = useState<
+    Partial<Record<BasicCareType, unknown>>
+  >({});
+  const [diseaseFormData, setDiseaseFormData] = useState<
+    Partial<Record<DiseaseCareType, unknown>>
+  >({});
 
   const toggleBasicNote = (key: BasicCareType) => {
     setActiveBasicNotes((prev) =>
@@ -22,6 +28,46 @@ export const useCreateNoteState = (initialTab: TabType = "basic") => {
     );
   };
 
+  const removeBasicNote = (key: BasicCareType) => {
+    setActiveBasicNotes((prev) => prev.filter((v) => v !== key));
+    setBasicFormData((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+  };
+
+  const removeDiseaseNote = (key: DiseaseCareType) => {
+    setActiveDiseaseNotes((prev) => prev.filter((v) => v !== key));
+    setDiseaseFormData((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+  };
+
+  const setBasicData = (key: BasicCareType, data: unknown) => {
+    setBasicFormData((prev) => ({ ...prev, [key]: data }));
+  };
+
+  const setDiseaseData = (key: DiseaseCareType, data: unknown) => {
+    setDiseaseFormData((prev) => ({ ...prev, [key]: data }));
+  };
+
+  const submitPayload = useMemo(
+    () => ({
+      basicCares: activeBasicNotes.map((key) => ({
+        type: key,
+        data: basicFormData[key],
+      })),
+      diseaseCares: activeDiseaseNotes.map((key) => ({
+        type: key,
+        data: diseaseFormData[key],
+      })),
+    }),
+    [activeBasicNotes, activeDiseaseNotes, basicFormData, diseaseFormData],
+  );
+
   return {
     mode,
     setMode,
@@ -31,5 +77,10 @@ export const useCreateNoteState = (initialTab: TabType = "basic") => {
     activeDiseaseNotes,
     toggleBasicNote,
     toggleDiseaseNote,
+    removeBasicNote,
+    removeDiseaseNote,
+    setBasicData,
+    setDiseaseData,
+    submitPayload,
   };
 };

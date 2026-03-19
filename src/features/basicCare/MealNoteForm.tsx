@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent } from "@/shared/ui/sheet";
@@ -211,13 +211,26 @@ const FeedRow = ({
   );
 };
 
-export const MealNoteForm = () => {
+interface Props {
+  onDelete: () => void;
+  onDataChange: (data: unknown) => void;
+}
+
+export const MealNoteForm = ({ onDelete, onDataChange }: Props) => {
   const [selectedTime, setSelectedTime] = useState<MealTime | null>(null);
   const [customTime, setCustomTime] = useState("");
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [feeds, setFeeds] = useState<FeedItem[]>([createEmptyFeed()]);
   const [confirmedFeeds, setConfirmedFeeds] = useState<FeedItem[]>([]);
   const [mealRecords, setMealRecords] = useState<MealRecord[]>([]);
+
+  const onDataChangeRef = useRef(onDataChange);
+  useEffect(() => {
+    onDataChangeRef.current = onDataChange;
+  });
+  useEffect(() => {
+    onDataChangeRef.current(mealRecords);
+  }, [mealRecords]);
 
   const handleOpenSheet = () => {
     const time = selectedTime === "직접입력" ? customTime : selectedTime;
@@ -331,7 +344,7 @@ export const MealNoteForm = () => {
     <div className="border border-gray-200 rounded-lg p-4 flex flex-col gap-4 bg-white">
       <div className="flex items-center justify-between">
         <span className="font-semibold text-sm">🍽 식사</span>
-        <button className="text-gray-400">
+        <button onClick={onDelete} className="text-gray-400">
           <Trash2 className="w-4 h-4" />
         </button>
       </div>

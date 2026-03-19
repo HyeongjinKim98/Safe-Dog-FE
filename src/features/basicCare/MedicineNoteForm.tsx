@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/shared/ui/textarea";
@@ -38,13 +38,26 @@ const createEmptyMedicine = (): MedicineItem => ({
   imagePreview: null,
 });
 
-export const MedicineNoteForm = () => {
+interface Props {
+  onDelete: () => void;
+  onDataChange: (data: unknown) => void;
+}
+
+export const MedicineNoteForm = ({ onDelete, onDataChange }: Props) => {
   const [selectedTime, setSelectedTime] = useState<MealTime | null>(null);
   const [customTime, setCustomTime] = useState("");
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [draft, setDraft] = useState<MedicineItem>(createEmptyMedicine());
   const [note, setNote] = useState("");
   const [registered, setRegistered] = useState<MedicineRecord | null>(null);
+
+  const onDataChangeRef = useRef(onDataChange);
+  useEffect(() => {
+    onDataChangeRef.current = onDataChange;
+  });
+  useEffect(() => {
+    onDataChangeRef.current({ registered, note });
+  }, [registered, note]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -90,7 +103,7 @@ export const MedicineNoteForm = () => {
     <div className="border border-gray-200 rounded-lg p-4 flex flex-col gap-4 bg-white">
       <div className="flex items-center justify-between">
         <span className="font-semibold text-sm">💉 의약복용</span>
-        <button className="text-gray-400">
+        <button onClick={onDelete} className="text-gray-400">
           <Trash2 className="w-4 h-4" />
         </button>
       </div>

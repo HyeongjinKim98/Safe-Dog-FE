@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/shared/ui/textarea";
@@ -18,13 +18,26 @@ interface WalkRecord {
   note: string;
 }
 
-export const WalkNoteForm = () => {
+interface Props {
+  onDelete: () => void;
+  onDataChange: (data: unknown) => void;
+}
+
+export const WalkNoteForm = ({ onDelete, onDataChange }: Props) => {
   const [selectedTime, setSelectedTime] = useState<MealTime | null>(null);
   const [customTime, setCustomTime] = useState("");
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [duration, setDuration] = useState("");
   const [note, setNote] = useState("");
   const [records, setRecords] = useState<WalkRecord[]>([]);
+
+  const onDataChangeRef = useRef(onDataChange);
+  useEffect(() => {
+    onDataChangeRef.current = onDataChange;
+  });
+  useEffect(() => {
+    onDataChangeRef.current(records);
+  }, [records]);
 
   const handleOpenSheet = () => {
     const time = selectedTime === "직접입력" ? customTime : selectedTime;
@@ -57,7 +70,7 @@ export const WalkNoteForm = () => {
     <div className="border border-gray-200 rounded-lg p-4 flex flex-col gap-4 bg-white">
       <div className="flex items-center justify-between">
         <span className="font-semibold text-sm">🐕 산책</span>
-        <button className="text-gray-400">
+        <button onClick={onDelete} className="text-gray-400">
           <Trash2 className="w-4 h-4" />
         </button>
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent } from "@/shared/ui/sheet";
@@ -28,10 +28,23 @@ const createEmptySnack = (): SnackItem => ({
   imagePreview: null,
 });
 
-export const SnackNoteForm = () => {
+interface Props {
+  onDelete: () => void;
+  onDataChange: (data: unknown) => void;
+}
+
+export const SnackNoteForm = ({ onDelete, onDataChange }: Props) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [draft, setDraft] = useState<SnackItem>(createEmptySnack());
   const [registered, setRegistered] = useState<SnackItem | null>(null);
+
+  const onDataChangeRef = useRef(onDataChange);
+  useEffect(() => {
+    onDataChangeRef.current = onDataChange;
+  });
+  useEffect(() => {
+    onDataChangeRef.current(registered);
+  }, [registered]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -64,7 +77,7 @@ export const SnackNoteForm = () => {
       {/* 헤더 */}
       <div className="flex items-center justify-between">
         <span className="font-semibold text-sm">🍬 간식</span>
-        <button className="text-gray-400">
+        <button onClick={onDelete} className="text-gray-400">
           <Trash2 className="w-4 h-4" />
         </button>
       </div>
