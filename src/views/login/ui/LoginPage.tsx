@@ -6,7 +6,7 @@ const oauth_url = `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization`;
 export const LoginPage = () => {
   const router = useRouter();
   const handleLogin = (provider: "GOOGLE" | "naver" | "kakao") => {
-    window.location.href = `${oauth_url}/GOOGLE`;
+    window.location.href = `${oauth_url}/google`;
   };
   const test = async () => {
     const response = await testLogin("test@gmail.com");
