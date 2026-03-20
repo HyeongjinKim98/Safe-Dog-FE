@@ -5,9 +5,9 @@ import { serverApi } from "@/shared/actions/api";
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { status?: string };
+  searchParams: Promise<{ status?: string }>;
 }) {
-  const status = searchParams.status;
+  const { status } = await searchParams;
 
   if (status === "PENDING" || status === "ACTIVE") {
     const cookieStore = await cookies();
