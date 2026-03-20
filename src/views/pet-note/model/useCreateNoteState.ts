@@ -55,15 +55,11 @@ export const useCreateNoteState = () => {
     setDiseaseFormData((prev) => ({ ...prev, [key]: data }));
   };
 
-  const apiTemplates = useMemo(
-    () =>
-      toApiTemplates(
-        activeBasicNotes,
-        activeDiseaseNotes,
-        basicFormData,
-        diseaseFormData,
-      ),
-    [activeBasicNotes, activeDiseaseNotes, basicFormData, diseaseFormData],
+  const apiTemplates = toApiTemplates(
+    activeBasicNotes,
+    activeDiseaseNotes,
+    basicFormData,
+    diseaseFormData,
   );
 
   return {
