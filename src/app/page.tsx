@@ -19,7 +19,7 @@ export default async function Page({
     }
 
     if (status === "PENDING") redirect("/signup");
-    if (status === "ACTIVE") redirect("/login");
+    if (status === "ACTIVE") redirect("/home");
   }
 
   return <>home</>;
