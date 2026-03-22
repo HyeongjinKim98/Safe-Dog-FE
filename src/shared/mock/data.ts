@@ -5,6 +5,7 @@ import {
   User,
   Invitation,
   InvitationGroup,
+  Memo,
 } from "../types";
 
 export const MOCK_USER: User = {
@@ -220,3 +221,13 @@ export const MOCK_INVITATION_GROUPS: InvitationGroup[] = [
     ],
   },
 ];
+export const getMockMemo = (petId: number, date: string): Memo | null => ({
+  id: 1,
+  petId,
+  targetDate: date,
+  content:
+    "심장병이 있으니 심장 마사지를 꼭 해주시고, 산책시 무리하지 않도록 주의해주세요.",
+  authorNickname: "지은",
+  authorRole: "관리자",
+  authorProfileImageUrl: "",
+});

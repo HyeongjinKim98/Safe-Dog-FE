@@ -81,3 +81,13 @@ export type InvitationGroup = {
     profileImageUrl: string;
   }[];
 };
+
+export type Memo = {
+  id: number;
+  petId: number;
+  targetDate: string;
+  content: string;
+  authorNickname: string;
+  authorRole: string;
+  authorProfileImageUrl: string;
+};

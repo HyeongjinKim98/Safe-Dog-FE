@@ -1,7 +1,13 @@
 "use server";
 import { serverApi } from "./api";
-import { MOCK_PETS, MOCK_USER, getMockCareLogs } from "../mock/data";
-import { Pet, CareLog, User } from "@/shared/types";
+import {
+  MOCK_PETS,
+  MOCK_USER,
+  getMockCareLogs,
+  getMockMemo,
+  MOCK_GUARDIANS,
+} from "../mock/data";
+import { Pet, CareLog, User, Memo, Guardian } from "@/shared/types";
 
 const USE_MOCK = true;
 
@@ -95,4 +101,19 @@ export const postPetNoteBy = async ({
     noteDate,
     content,
   });
+};
+
+export const getMemo = async (
+  petId: number,
+  date: string,
+): Promise<Memo | null> => {
+  return getMockMemo(petId, date);
+};
+
+export const getPetGuardians = async (petId: number): Promise<Guardian[]> => {
+  return MOCK_GUARDIANS;
+};
+
+export const completeCareLog = async (careLogId: number): Promise<void> => {
+  return;
 };
