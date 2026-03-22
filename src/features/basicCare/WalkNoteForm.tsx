@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/shared/ui/textarea";
-import { Sheet, SheetContent } from "@/shared/ui/sheet";
+import { Sheet, SheetContent, SheetTitle } from "@/shared/ui/sheet";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -156,9 +156,9 @@ export const WalkNoteForm = ({ onDelete, onDataChange }: Props) => {
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetContent side="bottom" className="rounded-t-xl px-5 pb-8">
           <div className="py-4 mb-2">
-            <span className="text-base font-semibold">
+            <SheetTitle className="text-base font-semibold">
               산책량을 입력해주세요
-            </span>
+            </SheetTitle>
           </div>
 
           <div className="flex flex-col gap-4">
