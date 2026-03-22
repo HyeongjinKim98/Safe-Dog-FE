@@ -66,3 +66,18 @@ export type Invitation = {
   inviterRole: string;
   petName: string;
 };
+export type InvitationGroup = {
+  code: string;
+  pet: {
+    name: string;
+    breed: string;
+    age: string;
+    gender: "MALE" | "FEMALE";
+    profileImageUrl: string;
+  };
+  guardians: {
+    id: number;
+    nickname: string;
+    profileImageUrl: string;
+  }[];
+};

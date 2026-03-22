@@ -1,5 +1,5 @@
 import { InvitationPage } from "@/views/invitation/ui/InvitationPage";
-import { getInvitation } from "@/shared/actions/invitation";
+import { getInvitation, getInvitationGroup } from "@/shared/actions/invitation";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
@@ -15,6 +15,13 @@ export default async function page({ searchParams }: Props) {
 
   const cookieStore = await cookies();
   const isLoggedIn = !!cookieStore.get("accessToken")?.value;
+  const group = isLoggedIn ? await getInvitationGroup(code) : null;
 
-  return <InvitationPage invitation={invitation} isLoggedIn={isLoggedIn} />;
+  return (
+    <InvitationPage
+      invitation={invitation}
+      isLoggedIn={isLoggedIn}
+      group={group}
+    />
+  );
 }
