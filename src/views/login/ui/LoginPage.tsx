@@ -2,9 +2,11 @@
 import { Button } from "@/shared/ui/button";
 import { useRouter } from "next/navigation";
 import { testLogin } from "@/shared/actions/auth";
+import { testGet } from "@/shared/actions/auth";
 const oauth_url = `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization`;
 export const LoginPage = () => {
   const router = useRouter();
+  console.log(process.env.NEXT_PUBLIC_API_URL);
   const handleLogin = (provider: "GOOGLE" | "naver" | "kakao") => {
     window.location.href = `${oauth_url}/google`;
   };
@@ -61,6 +63,9 @@ export const LoginPage = () => {
         onClick={() => router.push("/pet-note")}
       >
         반려노트
+      </Button>
+      <Button className="w-72 rounded-full h-12" onClick={() => testGet()}>
+        실험
       </Button>
     </div>
   );

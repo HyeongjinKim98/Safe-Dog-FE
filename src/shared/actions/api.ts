@@ -45,9 +45,9 @@ const reissueToken = async (): Promise<string | null> => {
   if (!refreshToken) return null;
 
   try {
-    const data = await apiClient<LoginResponseType>("/api/auth/reissue", {
+    const data = await apiClient<LoginResponseType>("/api/auth/refresh", {
       method: "POST",
-      token: refreshToken,
+      body: JSON.stringify({ refreshToken }),
     });
     await setToken(
       data.accessToken,
