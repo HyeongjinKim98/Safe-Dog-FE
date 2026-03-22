@@ -7,10 +7,19 @@ import { getGuardians } from "@/entities/guardian/api/guardian";
 import { PetStatus } from "@/features/pet/ui/PetStatus";
 import { BottomNavigation } from "@/widgets/BottomNavigation";
 import PetCareCard from "@/features/pet/ui/PetCareCard";
-const Notice = () => <Bell />;
 import { ManageGuardians } from "@/features/guardian/ui/manageGuardians";
-export const HomePage = async () => {
-  const pets = await getPets();
+import { Pet, CareLog, User } from "@/shared/actions/pet";
+const Notice = () => <Bell />;
+type Props = {
+  myInfo: User;
+  pets: Pet[];
+  careLogs: CareLog[];
+};
+
+export const HomePage = async ({ myInfo, pets, careLogs }: Props) => {
+  console.log(myInfo);
+  console.log(pets);
+  console.log(careLogs);
   const guardians = await getGuardians();
   return (
     <CommonLayout backgroundColor="bg-[#E0E0E0]">

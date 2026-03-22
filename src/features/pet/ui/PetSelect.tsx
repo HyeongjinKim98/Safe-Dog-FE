@@ -7,21 +7,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui/select";
+import { Pet } from "@/shared/actions/pet";
 
 interface PetSelectProps {
-  pets: { label: string; value: string }[];
+  pets: Pet[];
 }
 export const PetSelect = ({ pets }: PetSelectProps) => (
   <>
-    <Select defaultValue={pets[0]?.value}>
+    <Select defaultValue={String(pets[0]?.id)}>
       <SelectTrigger className="w-24 border-none shadow-none">
         <SelectValue placeholder="반려동물" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           {pets.map((pet) => (
-            <SelectItem key={pet.value} value={pet.value}>
-              {pet.label}
+            <SelectItem key={pet.id} value={String(pet.id)}>
+              {pet.name}
             </SelectItem>
           ))}
         </SelectGroup>
