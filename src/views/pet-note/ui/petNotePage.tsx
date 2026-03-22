@@ -14,14 +14,14 @@ export const PetNotePage = async () => {
   const guardians = await getGuardians();
   return (
     <CommonLayout backgroundColor="bg-[#E0E0E0]">
-      <Header
+      {/* <Header
         title={"반려노트"}
         left={<PetSelect pets={pets} />}
         right={<Notice />}
-      />
+      /> */}
       <ManageGuardians guardians={guardians} />
       <PetStatus />
-      <PetCareCard />
+      {/* <PetCareCard /> */}
       <BottomNavigation />
     </CommonLayout>
   );

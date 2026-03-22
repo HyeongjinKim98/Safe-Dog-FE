@@ -1,5 +1,4 @@
-import { Pet, CareLog, User } from "../actions/pet";
-
+import { Guardian, Pet, CareLog, User } from "../types";
 export const MOCK_USER: User = {
   id: 1,
   email: "test@gmail.com",
@@ -82,7 +81,7 @@ export const getMockCareLogs = (petId: number, date: string): CareLog[] => [
     petId,
     careTemplateId: 1,
     targetDate: date,
-    careType: "MEAL",
+    careType: "meal",
     careTypeDescription: "식사",
     title: "아침 식사",
     content: "사료 100g + 간식 30g",
@@ -99,7 +98,7 @@ export const getMockCareLogs = (petId: number, date: string): CareLog[] => [
     petId,
     careTemplateId: 2,
     targetDate: date,
-    careType: "MEAL",
+    careType: "meal",
     careTypeDescription: "식사",
     title: "저녁 식사",
     content: "사료 100g",
@@ -115,7 +114,7 @@ export const getMockCareLogs = (petId: number, date: string): CareLog[] => [
     petId,
     careTemplateId: 3,
     targetDate: date,
-    careType: "WALK",
+    careType: "walk",
     careTypeDescription: "산책",
     title: "아침 산책",
     content: "30분 산책",
@@ -132,7 +131,7 @@ export const getMockCareLogs = (petId: number, date: string): CareLog[] => [
     petId,
     careTemplateId: 4,
     targetDate: date,
-    careType: "WALK",
+    careType: "walk",
     careTypeDescription: "산책",
     title: "저녁 산책",
     content: "20분 산책",
@@ -148,7 +147,7 @@ export const getMockCareLogs = (petId: number, date: string): CareLog[] => [
     petId,
     careTemplateId: 5,
     targetDate: date,
-    careType: "MEDICATION",
+    careType: "medicine",
     careTypeDescription: "투약",
     title: "심장약 복용",
     content: "하루 1정 식후 복용",
@@ -164,7 +163,7 @@ export const getMockCareLogs = (petId: number, date: string): CareLog[] => [
     petId,
     careTemplateId: 6,
     targetDate: date,
-    careType: "GROOMING",
+    careType: "grooming",
     careTypeDescription: "그루밍",
     title: "브러싱",
     content: "털 빗질 10분",
@@ -176,4 +175,12 @@ export const getMockCareLogs = (petId: number, date: string): CareLog[] => [
     completed: true,
     completedAt: "2026-03-22T11:07:00.000Z",
   },
+];
+
+export const MOCK_GUARDIANS: Guardian[] = [
+  { id: 1, userId: 1, nickname: "박진희", profileImageUrl: "" },
+  { id: 2, userId: 2, nickname: "박진수", profileImageUrl: "" },
+  { id: 3, userId: 3, nickname: "박호준", profileImageUrl: "" },
+  { id: 4, userId: 4, nickname: "이경욱", profileImageUrl: "" },
+  { id: 5, userId: 5, nickname: "박호", profileImageUrl: "" },
 ];

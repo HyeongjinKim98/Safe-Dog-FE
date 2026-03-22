@@ -1,4 +1,3 @@
-// shared/types/index.ts
 import { BasicCareType, DiseaseCareType } from "@/views/pet-note/model/type";
 
 export type Pet = {
@@ -51,4 +50,11 @@ export type User = {
   role: string;
   lastSelectedPetId: number;
   onboardingCompleted: boolean;
+};
+
+export type Guardian = {
+  id: number;
+  userId: number;
+  nickname: string;
+  profileImageUrl: string;
 };

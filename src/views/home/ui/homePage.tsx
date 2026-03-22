@@ -9,20 +9,23 @@ import { PetStatus } from "@/features/pet/ui/PetStatus";
 import { BottomNavigation } from "@/widgets/BottomNavigation";
 import PetCareCard from "@/features/pet/ui/PetCareCard";
 import { ManageGuardians } from "@/features/guardian/ui/manageGuardians";
-import { Pet, CareLog, User } from "@/shared/actions/pet";
+import { Pet, CareLog, User } from "@/shared/types";
 import { useEffect, useState } from "react";
 import { getCareLogsByDate } from "@/shared/actions/pet";
+import { Guardian } from "@/shared/types";
 const Notice = () => <Bell />;
 type Props = {
   myInfo: User;
   pets: Pet[];
   careLogs: CareLog[];
+  guardians: Guardian[];
 };
 
 export const HomePage = ({
   myInfo,
   pets,
   careLogs: initialCareLogs,
+  guardians,
 }: Props) => {
   const [selectedPetId, setSelectedPetId] = useState(pets[0]?.id);
   const [careLogs, setCareLogs] = useState(initialCareLogs);
@@ -48,7 +51,7 @@ export const HomePage = ({
       />
       {/* <ManageGuardians guardians={guardians} /> */}
       <PetStatus />
-      <PetCareCard careLogs={careLogs} />
+      <PetCareCard careLogs={careLogs} guardians={guardians} />
       <BottomNavigation />
     </CommonLayout>
   );
