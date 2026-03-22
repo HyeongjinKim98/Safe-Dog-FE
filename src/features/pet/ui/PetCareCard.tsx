@@ -47,8 +47,8 @@ const CareList = ({ logs }: { logs: CareLog[] }) => {
   };
 
   return (
-    <Card className="flex flex-col rounded-t-none rounded-b-2xl bg-[#959596] border-none shadow-none">
-      <CardContent className="h-full flex flex-col pt-6 pb-6 px-5">
+    <Card className="flex flex-col rounded-t-none rounded-b-2xl border-none shadow-none">
+      <CardContent className="h-full flex flex-col  pb-6 px-5">
         <div className="flex gap-2 overflow-x-auto pb-3 scrollbar-hide">
           {availableTypes.map((type) => (
             <button
@@ -91,14 +91,11 @@ const CareList = ({ logs }: { logs: CareLog[] }) => {
                 </div>
 
                 <div className="flex flex-col flex-1 min-w-0">
-                  <span
-                    className={`text-sm font-semibold ${
-                      log.completed
-                        ? "text-gray-400 line-through"
-                        : "text-gray-800"
-                    }`}
-                  >
-                    {log.title} · {log.content}
+                  <span className="flex text-sm font-semibold items-center">
+                    {log.title}{" "}
+                    <span className="text-xs text-muted-foreground font-light">
+                      · {log.content}
+                    </span>
                   </span>
                   {log.completed && log.completedAt && (
                     <span className="text-xs text-gray-400 mt-0.5">
@@ -107,6 +104,7 @@ const CareList = ({ logs }: { logs: CareLog[] }) => {
                   )}
                 </div>
 
+                {/* 완료 보호자 프로필 표시  */}
                 {log.completed ? (
                   log.completedByProfileImageUrl ? (
                     <img
