@@ -98,7 +98,7 @@ export function Step1() {
                 checked={unknownWeight}
                 onChange={(e) => {
                   setUnknownWeight(e.target.checked);
-                  if (e.target.checked) setValue("weight", undefined);
+                  if (e.target.checked) setValue("weight", 0);
                 }}
                 className="w-4 h-4"
               />

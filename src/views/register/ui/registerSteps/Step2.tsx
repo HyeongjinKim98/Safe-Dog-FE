@@ -36,11 +36,41 @@ const NEUTERED_OPTIONS = [
   { label: "중성화 완료", value: true },
   { label: "중성화 안함", value: false },
 ] as const;
+const SPECIES_OPTIONS = {
+  dog: [
+    { label: "말티즈", value: "maltese" },
+    { label: "푸들", value: "poodle" },
+    { label: "포메라니안", value: "pomeranian" },
+    { label: "골든 리트리버", value: "golden_retriever" },
+    { label: "시츄", value: "shih_tzu" },
+    { label: "비숑 프리제", value: "bichon_frise" },
+    { label: "진돗개", value: "jindo" },
+    { label: "웰시 코기", value: "welsh_corgi" },
+    { label: "닥스훈트", value: "dachshund" },
+    { label: "기타", value: "other" },
+  ],
+  cat: [
+    { label: "코리안 숏헤어", value: "korean_shorthair" },
+    { label: "페르시안", value: "persian" },
+    { label: "스코티시 폴드", value: "scottish_fold" },
+    { label: "러시안 블루", value: "russian_blue" },
+    { label: "브리티시 숏헤어", value: "british_shorthair" },
+    { label: "메인쿤", value: "maine_coon" },
+    { label: "샴", value: "siamese" },
+    { label: "아비시니안", value: "abyssinian" },
+    { label: "벵갈", value: "bengal" },
+    { label: "기타", value: "other" },
+  ],
+} as const;
 
 export function Step2() {
-  const { control } = useFormContext<PetRegistrationFormValues>();
+  const { control, watch } = useFormContext<PetRegistrationFormValues>();
   const [genderOpen, setGenderOpen] = useState(false);
   const [neuteredOpen, setNeuteredOpen] = useState(false);
+  const [speciesOpen, setSpeciesOpen] = useState(false);
+
+  const division = watch("division");
+  const speciesOptions = division ? SPECIES_OPTIONS[division] : [];
 
   return (
     <FieldGroup>
@@ -78,7 +108,55 @@ export function Step2() {
               </Field>
             )}
           />
-
+          <Controller
+            name="species"
+            control={control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel>품종</FieldLabel>
+                <Drawer open={speciesOpen} onOpenChange={setSpeciesOpen}>
+                  <DrawerTrigger asChild>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full justify-start"
+                      aria-invalid={fieldState.invalid}
+                      disabled={!division}
+                    >
+                      {speciesOptions.find((o) => o.value === field.value)
+                        ?.label ?? "품종을 선택해주세요"}
+                    </Button>
+                  </DrawerTrigger>
+                  <DrawerContent>
+                    <DrawerHeader>
+                      <DrawerTitle>품종 선택</DrawerTitle>
+                    </DrawerHeader>
+                    <div className="flex flex-col gap-2 px-4 pb-8">
+                      {speciesOptions.map((option) => (
+                        <Button
+                          key={option.value}
+                          type="button"
+                          variant={
+                            field.value === option.value ? "default" : "outline"
+                          }
+                          onClick={() => {
+                            field.onChange(option.value);
+                            setSpeciesOpen(false);
+                          }}
+                          className="w-full"
+                        >
+                          {option.label}
+                        </Button>
+                      ))}
+                    </div>
+                  </DrawerContent>
+                </Drawer>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
           <Controller
             name="gender"
             control={control}
