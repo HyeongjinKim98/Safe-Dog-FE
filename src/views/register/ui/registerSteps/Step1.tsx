@@ -1,6 +1,6 @@
 "use client";
 
-import { Controller, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { PetRegistrationFormValues } from "@/entities/pet/model/petRegistrationSchema";
 import { Input } from "@/components/ui/input";
 import {
@@ -12,9 +12,17 @@ import {
   FieldLegend,
   FieldSet,
 } from "@/components/ui/field";
+import { useState } from "react";
 
 export function Step1() {
-  const { control } = useFormContext<PetRegistrationFormValues>();
+  const {
+    register,
+    setValue,
+    formState: { errors },
+  } = useFormContext<PetRegistrationFormValues>();
+
+  const [unknownBirthDate, setUnknownBirthDate] = useState(false);
+  const [unknownWeight, setUnknownWeight] = useState(false);
 
   return (
     <FieldGroup>
@@ -25,64 +33,78 @@ export function Step1() {
         </FieldDescription>
 
         <FieldGroup>
-          <Controller
-            name="name"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="name">반려동물 이름</FieldLabel>
-                <Input
-                  {...field}
-                  id="name"
-                  placeholder="이름을 입력해주세요"
-                  aria-invalid={fieldState.invalid}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
-            )}
-          />
+          <Field data-invalid={!!errors.name}>
+            <FieldLabel htmlFor="name">반려동물 이름</FieldLabel>
+            <Input
+              {...register("name")}
+              id="name"
+              placeholder="이름을 입력해주세요"
+              aria-invalid={!!errors.name}
+            />
+            {errors.name && <FieldError errors={[errors.name]} />}
+          </Field>
 
-          <Controller
-            name="birthDate"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="birthDate">생년월일</FieldLabel>
-                <Input
-                  {...field}
-                  id="birthDate"
-                  type="date"
-                  aria-invalid={fieldState.invalid}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
+          <Field data-invalid={!!errors.birthDate}>
+            <FieldLabel htmlFor="birthDate">생년월일</FieldLabel>
+            <Input
+              {...register("birthDate")}
+              id="birthDate"
+              type="date"
+              disabled={unknownBirthDate}
+              aria-invalid={!!errors.birthDate}
+              className={
+                unknownBirthDate ? "opacity-40 cursor-not-allowed" : ""
+              }
+            />
+            {errors.birthDate && !unknownBirthDate && (
+              <FieldError errors={[errors.birthDate]} />
             )}
-          />
+            <label className="flex items-center gap-2 mt-1 text-sm text-gray-500 cursor-pointer w-fit">
+              <input
+                type="checkbox"
+                checked={unknownBirthDate}
+                onChange={(e) => {
+                  setUnknownBirthDate(e.target.checked);
+                  if (e.target.checked) setValue("birthDate", "");
+                }}
+                className="w-4 h-4"
+              />
+              출생일을 모르겠어요
+            </label>
+          </Field>
 
-          <Controller
-            name="weight"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="weight">체중 (kg)</FieldLabel>
-                <Input
-                  {...field}
-                  id="weight"
-                  type="number"
-                  placeholder="체중을 입력해주세요"
-                  aria-invalid={fieldState.invalid}
-                  onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
+          <Field data-invalid={!!errors.weight}>
+            <FieldLabel htmlFor="weight">체중</FieldLabel>
+            <div className="relative">
+              <Input
+                {...register("weight", { valueAsNumber: true })}
+                id="weight"
+                type="number"
+                placeholder="체중을 입력해주세요"
+                disabled={unknownWeight}
+                aria-invalid={!!errors.weight}
+                className={`pr-10 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none${unknownWeight ? " opacity-40 cursor-not-allowed" : ""}`}
+              />
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400 pointer-events-none">
+                kg
+              </span>
+            </div>
+            {errors.weight && !unknownWeight && (
+              <FieldError errors={[errors.weight]} />
             )}
-          />
+            <label className="flex items-center gap-2 mt-1 text-sm text-gray-500 cursor-pointer w-fit">
+              <input
+                type="checkbox"
+                checked={unknownWeight}
+                onChange={(e) => {
+                  setUnknownWeight(e.target.checked);
+                  if (e.target.checked) setValue("weight", undefined);
+                }}
+                className="w-4 h-4"
+              />
+              체중을 잘 모르겠어요
+            </label>
+          </Field>
         </FieldGroup>
       </FieldSet>
     </FieldGroup>

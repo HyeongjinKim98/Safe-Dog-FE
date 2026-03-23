@@ -5,6 +5,7 @@ import { testLogin } from "@/shared/actions/auth";
 import { testGet } from "@/shared/actions/auth";
 import { registerPet } from "@/shared/actions/pet";
 import { getMyPets } from "@/shared/actions/pet";
+import { CommonLayout } from "@/widgets/CommonLayout";
 const oauth_url = `${process.env.NEXT_PUBLIC_API_URL}/oauth2/authorization/naver`;
 export const LoginPage = () => {
   const router = useRouter();
@@ -16,54 +17,20 @@ export const LoginPage = () => {
     await testLogin("test@gmail.com");
   };
   return (
-    <div className="flex flex-col w-full gap-2 p-4 items-center ">
-      <div className="w-40 h-40 bg-black rounded-full"></div>
-      <div className="whitespace-pre-line text-center font-semibold text-xl">
-        지켜줄개로 {"\n"} 아이의 건강을 지켜주세요
-      </div>
+    <CommonLayout>
+      <div className="flex flex-col w-full h-screen gap-2 p-4 items-center justify-center">
+        <div className="w-40 h-40 bg-black rounded-full"></div>
+        <div className="whitespace-pre-line text-center font-semibold text-xl">
+          지켜줄개로 {"\n"} 아이의 건강을 지켜주세요
+        </div>
 
-      <Button className="w-72 rounded-full h-12" onClick={handleNaverLogin}>
-        네이버 로그인
-      </Button>
-      <Button className="w-72 rounded-full h-12" onClick={test}>
-        카카오 로그인
-      </Button>
-      <Button
-        className="w-72 rounded-full h-12"
-        onClick={() => router.push("/register")}
-      >
-        반려동물 등록
-      </Button>
-      <Button
-        className="w-72 rounded-full h-12"
-        onClick={() => router.push("/onboarding")}
-      >
-        온보딩
-      </Button>
-      <Button
-        className="w-72 rounded-full h-12"
-        onClick={() => router.push("/signup")}
-      >
-        약관
-      </Button>
-      <Button className="w-72 rounded-full h-12" onClick={test}>
-        테스트로그인
-      </Button>
-      <Button
-        className="w-72 rounded-full h-12"
-        onClick={() => router.push("/pet-note")}
-      >
-        반려노트
-      </Button>
-      <Button className="w-72 rounded-full h-12" onClick={() => testGet()}>
-        실험
-      </Button>
-      <Button className="w-72 rounded-full h-12" onClick={() => registerPet()}>
-        실험2
-      </Button>
-      <Button className="w-72 rounded-full h-12" onClick={() => getMyPets()}>
-        실험3
-      </Button>
-    </div>
+        <Button
+          className="w-72 rounded-full h-12 mt-12"
+          onClick={handleNaverLogin}
+        >
+          로그인
+        </Button>
+      </div>
+    </CommonLayout>
   );
 };

@@ -148,7 +148,7 @@ export const InvitationPage = ({ invitation, isLoggedIn, group }: Props) => {
     if (isLoggedIn) {
       setShowGroup(true);
     } else {
-      setShowLoginDialog(true); // router.push 대신 dialog 표시
+      setShowLoginDialog(true);
     }
   };
 
