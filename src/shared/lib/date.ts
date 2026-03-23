@@ -33,7 +33,5 @@ export const calcAge = (birthDate: string): string => {
   const now = new Date();
   const years = now.getFullYear() - birth.getFullYear();
   const months = now.getMonth() - birth.getMonth();
-  return months < 0
-    ? `${years - 1}년 ${months + 12}개월`
-    : `${years}년 ${months}개월`;
+  return years < 1 ? ` ${months + 12}개월` : `${years}세`;
 };
