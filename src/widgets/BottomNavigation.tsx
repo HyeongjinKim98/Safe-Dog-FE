@@ -5,8 +5,7 @@ import { Home, BookOpen, LogOut, Info } from "lucide-react";
 const NAV_ITEMS = [
   { label: "홈", path: "/home", icon: Home },
   { label: "반려노트", path: "/pet-note", icon: BookOpen },
-  { label: "로그아웃", path: "/login", icon: LogOut },
-  { label: "정보", path: "/info", icon: Info },
+  { label: "마이페이지", path: "/mypage", icon: Info },
 ];
 
 export const BottomNavigation = () => {
