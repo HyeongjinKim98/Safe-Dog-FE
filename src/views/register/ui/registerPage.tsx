@@ -16,6 +16,8 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { Header } from "@/widgets/Header";
+import { ChevronLeft } from "lucide-react";
 export const RegisterPage = () => {
   const { form, currentStep, totalSteps, goNext, goPrev } =
     usePetRegistrationForm();
@@ -34,6 +36,7 @@ export const RegisterPage = () => {
   };
   return (
     <CommonLayout>
+      <Header left={<ChevronLeft />} right={<div>나중에 하기</div>} />
       <FormProvider {...form}>
         <form
           onSubmit={handleSubmit}
