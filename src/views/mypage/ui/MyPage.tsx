@@ -47,7 +47,10 @@ export const MyPage = ({ profile, pets }: Props) => {
         </button>
 
         <div className="px-6 py-4 border-b border-gray-100">
-          <h2 className="font-semibold text-base mb-3">등록된 반려동물</h2>
+          <div className="flex justify-between">
+            <h2 className="font-semibold text-base mb-3">등록된 반려동물</h2>
+            <ChevronRight size={16} className="text-gray-400" />
+          </div>
           <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-1">
             {pets.map((pet) => (
               <div key={pet.id} className="flex items-center gap-2 ">
