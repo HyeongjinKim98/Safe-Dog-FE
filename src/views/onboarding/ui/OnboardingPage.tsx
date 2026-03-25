@@ -4,18 +4,23 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/shared/ui/button";
 import { Header } from "@/widgets/Header";
 import { CommonLayout } from "../../../widgets/CommonLayout";
+import Image from "next/image";
 const TOTAL_STEPS = 3;
 const SLIDES = [
   {
     title: "함께 돌보는 반려생활",
-    description: "가족과 나누는 체크리스트로 실수 없이 제어하세요",
+    description: `가족과 함께 반려동물의 케어를${"\n"}체계적으로 관리하세요`,
+    gif: "/gifs/onboarding1.gif",
   },
   {
     title: "시니어 맞춤케어",
-    description: `나이 들수록 더 세심하게 ${"\n"}상태에 맞춰 필요한 케어가 자동으로 준비돼요`,
+    description: `우리 아이 상태에 맞는${"\n"}필요한 케어를 추천해요`,
+    gif: "/gifs/onboarding2.gif",
   },
   {
-    title: "오늘 할 일을 한눈에\n지켜줄개로 시작해보세요",
+    title: "시니어 맞춤케어",
+    description: `우리 아이 상태에 맞는${"\n"}필요한 케어를 추천해요`,
+    gif: "/gifs/onboarding3.gif",
   },
 ];
 export const OnboardingPage = () => {
@@ -23,14 +28,35 @@ export const OnboardingPage = () => {
   const { step, nextStep, prevStep } = useRegisterStep();
   return (
     <>
-        <CommonLayout>
-          <Header right ={<button onClick={()=>router.push('/login')}>SKIP</button>}/>
-        <div className="h-full flex flex-col items-center justify-center whitespace-pre-line text-center">
-          <div className="text-2xl font-bold whitespace-pre-line">
+      <CommonLayout backgroundColor="bg-primary-100">
+        <Header
+          bgColor="transparent"
+          right={
+            <button
+              className="text-neutral-500"
+              onClick={() => router.push("/login")}
+            >
+              건너뛰기
+            </button>
+          }
+        />
+        <div className="h-full flex flex-1 flex-col items-center justify-center whitespace-pre-line text-center ">
+          <div className="text-3xl font-bold whitespace-pre-line mb-4">
             {SLIDES[step].title}
           </div>
-          {SLIDES[step].description && <p>{SLIDES[step].description}</p>}
-          <div className="w-60 h-40 bg-gray-400 rounded-xl mt-4"></div>
+          {SLIDES[step].description && (
+            <p className="text-lg text-muted-foreground">
+              {SLIDES[step].description}
+            </p>
+          )}
+          <Image
+            src={SLIDES[step].gif}
+            alt={`onboarding ${step + 1}`}
+            width={480}
+            height={160}
+            className="rounded-xl mt-4"
+            unoptimized
+          />
           <div className="flex gap-2 m-2">
             {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
               <div
@@ -42,18 +68,21 @@ export const OnboardingPage = () => {
             ))}
           </div>
         </div>
-        <div className="bottom-0 flex p-2 gap-2 w-full">
+        <div className="bottom-0 flex p-2 gap-2 w-full mt-auto ">
           {step == 1 && (
             <Button
               onClick={prevStep}
               variant={"outline"}
-              className="flex-1 rounded-full h-12"
+              className="flex-1 rounded-full h-16 text-xl"
             >
               이전
             </Button>
           )}
           {step !== 2 && (
-            <Button onClick={nextStep} className="flex-2 rounded-full h-12">
+            <Button
+              onClick={nextStep}
+              className="flex-2 rounded-full h-16 text-xl"
+            >
               다음
             </Button>
           )}
@@ -61,13 +90,13 @@ export const OnboardingPage = () => {
           {step == 2 && (
             <Button
               onClick={() => router.push("/login")}
-              className="flex-2 rounded-full h-12"
+              className="flex-2 rounded-full h-16 text-xl"
             >
               시작하기
             </Button>
           )}
         </div>
-        </CommonLayout>
+      </CommonLayout>
     </>
   );
 };

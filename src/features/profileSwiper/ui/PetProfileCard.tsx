@@ -22,8 +22,10 @@ export const PetProfileCard = ({
 
   return (
     <Card
-      className={`w-full rounded-2xl shadow-sm transition-all border-2 ${
-        isSelected ? "border-gray-700" : "border-gray-200"
+      className={`w-full rounded-[10px] transition-all ${
+        isSelected
+          ? "border-2 border-primary-500 shadow-[0px_0px_4px_rgba(217,191,163,1)]"
+          : "border border-[#EEEEEE]"
       }`}
     >
       <CardContent className=" pt-4 pb-6 px-5 flex flex-col gap-4">

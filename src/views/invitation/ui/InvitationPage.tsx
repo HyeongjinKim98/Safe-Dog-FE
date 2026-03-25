@@ -145,11 +145,12 @@ export const InvitationPage = ({ invitation, isLoggedIn, group }: Props) => {
   const [showGroup, setShowGroup] = useState(false);
   const [showLoginDialog, setShowLoginDialog] = useState(false);
   const handleJoin = () => {
-    if (isLoggedIn) {
-      setShowGroup(true);
-    } else {
-      setShowLoginDialog(true);
-    }
+    setShowGroup(true);
+    // if (isLoggedIn) {
+    //   setShowGroup(true);
+    // } else {
+    //   setShowLoginDialog(true);
+    // }
   };
 
   if (showGroup && group) {

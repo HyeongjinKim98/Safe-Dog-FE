@@ -56,16 +56,22 @@ export const DateSelector = ({ selectedDate, onSelect }: DateSelectorProps) => {
             <button
               key={date}
               onClick={() => onSelect(date)}
-              className={`flex items-center gap-1 px-3 py-1.5 rounded-full transition-colors ${
-                isCenter
-                  ? "text-gray-900 font-bold"
-                  : "text-gray-300 font-normal"
-              }`}
+              className="flex items-center gap-[6px]"
             >
-              <span className="text-sm">
+              <span className={`text-[18px] font-semibold ${isCenter ? "text-[#1F1F1F]" : index === 0 ? "text-[#9E9E9E]" : "text-[#E0E0E0]"}`}>
                 {month}.{day}
               </span>
-              <span className="text-sm">{dayLabel}</span>
+              <span
+                className={`w-[26px] h-[26px] flex items-center justify-center rounded-full text-[15px] font-medium ${
+                  isCenter
+                    ? "bg-[#1F1F1F] text-white"
+                    : index === 0
+                    ? "bg-[#313131] text-[#9E9E9E]"
+                    : "bg-[#313131] text-[#E0E0E0]"
+                }`}
+              >
+                {dayLabel}
+              </span>
             </button>
           );
         })}

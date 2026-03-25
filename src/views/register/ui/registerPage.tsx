@@ -84,16 +84,16 @@ export const RegisterPage = () => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent onPointerDownOutside={(e) => e.preventDefault()}>
           <DialogHeader>
-            <DialogTitle>반려동물 등록이 완료되었어요</DialogTitle>
+            <DialogTitle>반려동물 등록이 완료되었어요 🎉</DialogTitle>
             <DialogDescription>
-              흰동이의 건강한 반려생활을 응원할게요!
+              이제 케어 체크리스트를 설정해보세요!
             </DialogDescription>
           </DialogHeader>
           <Button
             className="w-full rounded-full h-12"
-            onClick={() => router.push("/home")}
+            onClick={() => router.push("/pet-note/create?petId=1")}
           >
-            확인
+            케어 항목 설정하기
           </Button>
         </DialogContent>
       </Dialog>

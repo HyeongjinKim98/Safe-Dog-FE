@@ -5,8 +5,7 @@ import { useCreateNoteState } from "../model/useCreateNoteState";
 import { TabType } from "../model/useCreateNoteState";
 import { BasicCareType, DiseaseCareType, ModeType } from "../model/type";
 import { Button } from "@/shared/ui/button";
-import { Plus } from "lucide-react";
-import { ArrowLeft } from "lucide-react";
+import { Plus, ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { SelectBasicCare } from "./selectBasicCare";
 import { BASIC_CARE_ITEMS } from "../model/constants";
@@ -23,6 +22,8 @@ import {
   DISEASE_TEMPLATES,
 } from "@/features/diseaseCare/diseaseCareForm";
 import { SelectDiseaseCare } from "./selectDiseaseCare";
+import { applyTemplates } from "@/shared/demo/demoCareStore"; // ← 경로 조정
+
 export interface FormProps {
   onDelete: () => void;
   onDataChange: (data: unknown) => void;
@@ -40,10 +41,12 @@ const BASIC_FORM_COMPONENTS: Partial<
   walk: WalkNoteForm,
   weight: WeightNoteForm,
 };
+
 interface PrevButtonProps {
   mode: ModeType;
   setMode: (type: ModeType) => void;
 }
+
 const TABS: { key: TabType; label: string }[] = [
   { key: "basic", label: "기본케어" },
   { key: "disease", label: "질병케어" },
@@ -58,26 +61,22 @@ const DISEASE_KEY_MAP: Record<DiseaseCareType, string> = {
   arthritis: "arthritis",
   other: "etc",
 };
+
 const PrevButton = ({ mode, setMode }: PrevButtonProps) => {
   const router = useRouter();
-
-  const handleClick = () => {
-    if (mode === "select") {
-      setMode("create");
-    } else {
-      router.back();
-    }
-  };
-
   return (
-    <button onClick={handleClick}>
+    <button
+      onClick={() => (mode === "select" ? setMode("create") : router.back())}
+    >
       <ArrowLeft />
     </button>
   );
 };
+
 interface Props {
   petId: number;
 }
+
 export const CreatePetNotePage = ({ petId }: Props) => {
   const {
     mode,
@@ -92,41 +91,46 @@ export const CreatePetNotePage = ({ petId }: Props) => {
     removeDiseaseNote,
     setBasicData,
     setDiseaseData,
-    apiTemplates,
   } = useCreateNoteState();
+
   const router = useRouter();
+
+  const handleSave = () => {
+    const today = new Date().toISOString().split("T")[0];
+
+    // ── 시연용: demoCareStore에 직접 반영 ──────────────────────────
+    applyTemplates(today, activeBasicNotes, activeDiseaseNotes);
+    // ──────────────────────────────────────────────────────────────
+
+    // 실제 서비스라면 아래 서버 액션도 같이 호출
+    // await saveCareTemplates(petId, activeBasicNotes, activeDiseaseNotes);
+
+    router.push("/pet-note");
+  };
+
   return (
     <CommonLayout>
       <Header
-        title={"체크리스트 입력"}
+        title="체크리스트 입력"
         left={<PrevButton mode={mode} setMode={setMode} />}
       />
+
       <div className="flex w-full h-16 px-4 text-center items-center">
         {TABS.map(({ key, label }) => (
           <button
             key={key}
             onClick={() => setCareTab(key)}
-            className={`flex-1 h-16  flex items-center justify-center border-b-2 transition colors ${
+            className={`flex-1 h-12 flex items-center justify-center transition-colors ${
               careTab === key
-                ? "border-black font-semibold"
-                : "border-gray-300 font-normal opacity-70"
+                ? "border-b-2 border-[#1F1F1F] font-semibold text-[#1F1F1F]"
+                : "border-b border-[#E0E0E0] font-normal text-[#6B6B6B]"
             }`}
           >
             {label}
           </button>
         ))}
       </div>
-      {mode === "create" && (
-        <div className="flex ml-auto m-4">
-          <Button
-            onClick={() => setMode("select")}
-            className="w-28 bg-gray-200 text-gray-600 rounded-full"
-          >
-            <Plus />
-            항목 추가
-          </Button>
-        </div>
-      )}
+
       {mode === "select" && careTab === "basic" && (
         <SelectBasicCare
           selected={activeBasicNotes}
@@ -141,8 +145,9 @@ export const CreatePetNotePage = ({ petId }: Props) => {
           onConfirm={() => setMode("create")}
         />
       )}
+
       {mode === "create" && careTab === "basic" && (
-        <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col gap-[14px] px-5 py-2">
           {activeBasicNotes.map((noteKey) => {
             const FormComponent = BASIC_FORM_COMPONENTS[noteKey];
             const label = BASIC_CARE_ITEMS.find(
@@ -153,9 +158,7 @@ export const CreatePetNotePage = ({ petId }: Props) => {
                 {FormComponent ? (
                   <FormComponent
                     onDelete={() => removeBasicNote(noteKey)}
-                    onDataChange={(data: unknown) =>
-                      setBasicData(noteKey, data)
-                    }
+                    onDataChange={(data) => setBasicData(noteKey, data)}
                   />
                 ) : (
                   <div>{label} 폼</div>
@@ -163,10 +166,18 @@ export const CreatePetNotePage = ({ petId }: Props) => {
               </div>
             );
           })}
+          <button
+            onClick={() => setMode("select")}
+            className="flex items-center justify-center gap-2 w-full bg-[#F7F7F7] rounded-[8px] px-[10px] py-[8px] text-[#3D3D3D] text-[16px] font-medium"
+          >
+            <Plus className="w-5 h-5" />
+            기본케어 항목 추가
+          </button>
         </div>
       )}
+
       {mode === "create" && careTab === "disease" && (
-        <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col gap-[14px] px-5 py-2">
           {activeDiseaseNotes.map((noteKey) => {
             const templateKey = DISEASE_KEY_MAP[noteKey];
             const template = DISEASE_TEMPLATES.find(
@@ -178,19 +189,27 @@ export const CreatePetNotePage = ({ petId }: Props) => {
                 key={noteKey}
                 template={template}
                 onDelete={() => removeDiseaseNote(noteKey)}
-                onDataChange={(data: unknown) => setDiseaseData(noteKey, data)}
+                onDataChange={(data) => setDiseaseData(noteKey, data)}
               />
             );
           })}
+          <button
+            onClick={() => setMode("select")}
+            className="flex items-center justify-center gap-2 w-full bg-[#F7F7F7] rounded-[8px] px-[10px] py-[8px] text-[#3D3D3D] text-[16px] font-medium"
+          >
+            <Plus className="w-5 h-5" />
+            질병케어 항목 추가
+          </button>
         </div>
       )}
-      <div className="m-4">
+
+      <div className="flex justify-center px-5 py-4 mt-auto">
         <Button
-          className="w-full h-14 rounded-full"
-          onClick={() => {
-            console.log(apiTemplates);
-            router.push("/pet-note");
-          }}
+          className="w-[350px] h-[58px] rounded-[30px] bg-primary-600 text-white disabled:bg-[#EEEEEE] disabled:text-[#6B6B6B]"
+          disabled={
+            activeBasicNotes.length === 0 && activeDiseaseNotes.length === 0
+          }
+          onClick={handleSave}
         >
           저장하기
         </Button>

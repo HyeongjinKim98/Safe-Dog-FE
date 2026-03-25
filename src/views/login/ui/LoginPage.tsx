@@ -23,7 +23,7 @@ export const LoginPage = () => {
         <Button
           className="w-72 rounded-full h-12 mt-12 bg-primary-600 hover:bg-primary-300"
           onClick={() => {
-            router.push("/onboarding");
+            router.push("/home");
           }}
         >
           로그인

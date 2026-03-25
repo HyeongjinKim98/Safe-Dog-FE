@@ -12,6 +12,7 @@ import { Pet, CareLog, Guardian, Memo } from "@/shared/types";
 import { getCareLogsByDate, getMemo } from "@/shared/actions/pet";
 import { DateSelector } from "@/features/pet/ui/DateSelector";
 import { MemoCard } from "@/features/pet/ui/MemoCard";
+import { useRouter } from "next/navigation";
 
 type Props = {
   pets: Pet[];
@@ -22,6 +23,23 @@ type Props = {
 };
 
 const Notice = () => <Bell />;
+
+const NoPetRegistered = () => {
+  const router = useRouter();
+  return (
+    <div className="flex flex-col items-center justify-center flex-1 px-5 gap-6">
+      <p className="text-center text-[16px] font-medium text-[#6B6B6B] leading-relaxed">
+        먼저 반려동물 등록을 완료해야{"\n"}체크리스트를 설정 할 수 있어요
+      </p>
+      <button
+        onClick={() => router.push("/pet/register")}
+        className="w-[310px] h-[54px] rounded-[30px] bg-primary-500 text-white text-[16px] font-medium"
+      >
+        반려동물 등록하러 가기
+      </button>
+    </div>
+  );
+};
 
 export const PetNotePage = ({
   pets,
@@ -47,7 +65,7 @@ export const PetNotePage = ({
   }, [selectedPetId, selectedDate]);
 
   return (
-    <CommonLayout backgroundColor="bg-[#E0E0E0]">
+    <CommonLayout backgroundColor="bg-white">
       <Header
         title="반려노트"
         left={
@@ -59,10 +77,23 @@ export const PetNotePage = ({
         }
         right={<Notice />}
       />
-      <ManageGuardians guardians={guardians} />
-      <DateSelector selectedDate={selectedDate} onSelect={setSelectedDate} />
-      <MemoCard memo={memo} />
-      <PetCareCard careLogs={careLogs} guardians={guardians} />
+      {pets.length === 0 ? (
+        <NoPetRegistered />
+      ) : (
+        <>
+          <ManageGuardians guardians={guardians} />
+          <DateSelector
+            selectedDate={selectedDate}
+            onSelect={setSelectedDate}
+          />
+          <MemoCard memo={memo} />
+          <PetCareCard
+            guardians={guardians}
+            selectedDate={selectedDate}
+            onDateSelect={setSelectedDate}
+          />
+        </>
+      )}
       <BottomNavigation />
     </CommonLayout>
   );

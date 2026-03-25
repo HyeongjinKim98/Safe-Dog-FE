@@ -7,9 +7,44 @@ import {
   getMockMemo,
   MOCK_GUARDIANS,
 } from "../mock/data";
+import { careStore } from "../mock/careStore";
 import { Pet, CareLog, User, Memo, Guardian } from "@/shared/types";
 
 const USE_MOCK = true;
+
+const BASIC_CARE_LABELS: Record<string, string> = {
+  meal: "식사", snack: "간식", supplement: "영양제",
+  medicine: "투약", pad: "배변패드", water: "음수",
+  walk: "산책", weight: "체중",
+};
+const DISEASE_CARE_LABELS: Record<string, string> = {
+  heart: "심장", kidney: "신장", cancer: "암",
+  eye: "안과", cushing: "쿠싱증후군", arthritis: "관절염", other: "기타",
+};
+
+export const saveCareTemplates = async (
+  petId: number,
+  basicNotes: string[],
+  diseaseNotes: string[],
+): Promise<void> => {
+  const templates = [
+    ...basicNotes.map((type) => ({
+      petId,
+      careType: type,
+      title: BASIC_CARE_LABELS[type] ?? type,
+      content: "케어 항목",
+      careTypeDescription: BASIC_CARE_LABELS[type] ?? type,
+    })),
+    ...diseaseNotes.map((type) => ({
+      petId,
+      careType: type,
+      title: `${DISEASE_CARE_LABELS[type] ?? type} 관리`,
+      content: "질병 케어 항목",
+      careTypeDescription: DISEASE_CARE_LABELS[type] ?? type,
+    })),
+  ];
+  careStore.save(templates);
+};
 
 export const getMyPets = async (): Promise<Pet[]> => {
   if (USE_MOCK) return MOCK_PETS;
@@ -25,7 +60,26 @@ export const getCareLogsByDate = async (
   petId: number,
   date: string,
 ): Promise<CareLog[]> => {
-  if (USE_MOCK) return getMockCareLogs(petId, date);
+  if (USE_MOCK) {
+    const staticLogs = getMockCareLogs(petId, date);
+    const extra = careStore.getForPet(petId).map((t, i) => ({
+      id: 1000 + i,
+      petId,
+      careTemplateId: 1000 + i,
+      targetDate: date,
+      careType: t.careType as CareLog["careType"],
+      careTypeDescription: t.careTypeDescription,
+      title: t.title,
+      content: t.content,
+      completedByUserId: 0,
+      completedByNickname: "",
+      completedByProfileImageUrl: "",
+      version: 1,
+      updatedAt: new Date().toISOString(),
+      completed: false,
+    }));
+    return [...staticLogs, ...extra];
+  }
   return serverApi.get<CareLog[]>(`/api/care-logs?petId=${petId}&date=${date}`);
 };
 

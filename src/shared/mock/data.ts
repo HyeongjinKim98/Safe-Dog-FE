@@ -221,6 +221,46 @@ export const MOCK_INVITATION_GROUPS: InvitationGroup[] = [
     ],
   },
 ];
+export const MOCK_CARE_REPORT_WEEKLY = [
+  {
+    type: "disease" as const,
+    items: [
+      { careType: "heart", label: "심장병", completed: 6, total: 9 },
+      { careType: "diabetes", label: "당뇨병", completed: 5, total: 9 },
+    ],
+  },
+  {
+    type: "basic" as const,
+    items: [
+      { careType: "meal", label: "식사", completed: 7, total: 9 },
+      { careType: "walk", label: "산책", completed: 2, total: 9 },
+      { careType: "grooming", label: "그루밍", completed: 6, total: 9 },
+      { careType: "supplement", label: "영양제", completed: 3, total: 9 },
+      { careType: "medicine", label: "투약", completed: 4, total: 9 },
+    ],
+  },
+];
+
+export const MOCK_CARE_REPORT_MONTHLY = [
+  {
+    type: "disease" as const,
+    items: [
+      { careType: "heart", label: "심장병", completed: 22, total: 30 },
+      { careType: "diabetes", label: "당뇨병", completed: 18, total: 30 },
+    ],
+  },
+  {
+    type: "basic" as const,
+    items: [
+      { careType: "meal", label: "식사", completed: 28, total: 30 },
+      { careType: "walk", label: "산책", completed: 10, total: 30 },
+      { careType: "grooming", label: "그루밍", completed: 20, total: 30 },
+      { careType: "supplement", label: "영양제", completed: 15, total: 30 },
+      { careType: "medicine", label: "투약", completed: 17, total: 30 },
+    ],
+  },
+];
+
 export const getMockMemo = (petId: number, date: string): Memo | null => ({
   id: 1,
   petId,

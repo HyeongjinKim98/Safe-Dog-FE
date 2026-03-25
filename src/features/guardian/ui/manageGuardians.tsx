@@ -9,13 +9,13 @@ interface GuardianListProps {
 export const ManageGuardians = ({ guardians }: GuardianListProps) => {
   return (
     <div className="flex items-center p-4">
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center ">
         <div className="w-10 h-10 bg-[#4c4c4c] rounded-full flex items-center justify-center border border-white">
           <Users className="w-6 h-6 text-white" />
         </div>
-        <p className="text-muted-foreground text-xs whitespace-pre-line text-center">
+        {/* <p className="text-muted-foreground text-xs whitespace-pre-line text-center">
           공동보호자{"\n"}관리
-        </p>
+        </p> */}
       </div>
 
       <div className="flex">
@@ -38,7 +38,14 @@ export const ManageGuardians = ({ guardians }: GuardianListProps) => {
       </div>
 
       <div className="ml-auto">
-        <Button className="rounded-full bg-[#888888]">요청하기</Button>
+        <button
+          className="rounded-full px-4 py-2 text-sm font-medium text-white"
+          style={{
+            background: "linear-gradient(147deg, #FFD08A 0%, #FFB84C 100%)",
+          }}
+        >
+          요청하기
+        </button>
       </div>
     </div>
   );

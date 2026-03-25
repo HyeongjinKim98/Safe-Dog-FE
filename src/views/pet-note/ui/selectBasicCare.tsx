@@ -14,39 +14,39 @@ interface Props {
 export const SelectBasicCare = ({ selected, toggle, onConfirm }: Props) => {
   const isSelected = (key: BasicCareType) => selected.includes(key);
   return (
-    <div className="p-6">
-      <div className="sticky top-0 flex my-4">
-        <div className="flex ">
-          가이드 보기 <Info width="16" />
+    <div className="flex flex-col gap-[14px] px-5 py-4 flex-1">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1 text-[#3D3D3D] text-sm font-medium">
+          가이드 보기 <Info width="14" className="text-[#3D3D3D]" />
         </div>
-        <div className="text-muted-foreground text-sm flex ml-auto">
-          *중복 선택 가능
-        </div>
+        <span className="text-[#6B6B6B] text-xs">*중복 선택 가능</span>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 overflow-y-auto scrollbar-none max-h-[calc(100vh-200px)] pb-30">
+      <div className="grid grid-cols-2 gap-3 overflow-y-auto scrollbar-none pb-32">
         {BASIC_CARE_ITEMS.map((e) => (
           <Card
             key={e.key}
             onClick={() => toggle(e.key)}
-            className={`flex flex-col items-center cursor-pointer transition-colors box-border border-2 ${
-              isSelected(e.key) ? "border-black" : "border-gray-100"
+            className={`flex flex-col items-center gap-2 p-4 cursor-pointer transition-colors rounded-[8px] ${
+              isSelected(e.key)
+                ? "border-2 border-primary-500 shadow-[0px_0px_4px_rgba(217,191,163,1)]"
+                : "border border-[#E0E0E0]"
             }`}
           >
-            <div className="bg-gray-400 w-8 h-8 rounded-full" />
+            <div className="bg-[#F7F7F7] w-8 h-8 rounded-full" />
             <div className="flex items-center gap-1">
-              {isSelected(e.key) && <Check width={14} />}
-              <p>{e.label}</p>
+              {isSelected(e.key) && <Check width={14} className="text-primary-600" />}
+              <p className="text-sm text-[#3D3D3D]">{e.label}</p>
             </div>
           </Card>
         ))}
       </div>
 
-      <div className="sticky bottom-6 left-0 right-0 flex justify-center px-6">
+      <div className="sticky bottom-0 flex justify-center pb-4">
         <Button
           onClick={onConfirm}
           disabled={selected.length === 0}
-          className="w-full h-12 rounded-full"
+          className="w-[350px] h-[58px] rounded-[30px] bg-primary-600 text-white disabled:bg-[#EEEEEE] disabled:text-[#6B6B6B]"
         >
           {selected.length > 0
             ? `${selected.length}개 선택됨`

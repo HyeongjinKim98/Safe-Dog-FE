@@ -271,7 +271,10 @@ export function Step2() {
                   id="registrationNumber"
                   placeholder="등록번호를 입력해주세요"
                   aria-invalid={fieldState.invalid}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    field.onChange(val === "" ? undefined : Number(val));
+                  }}
                 />
                 {fieldState.invalid && (
                   <FieldError errors={[fieldState.error]} />

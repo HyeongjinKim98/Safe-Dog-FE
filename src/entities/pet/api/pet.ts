@@ -36,7 +36,7 @@ export async function getPetList(): Promise<Pet[]> {
     {
       id: 1,
       userId: 101,
-      name: "누렁이",
+      name: "돌돌이",
       species: "개",
       breed: "웰시코기",
       birthDate: "2023-05-12",

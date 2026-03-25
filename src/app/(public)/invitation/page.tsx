@@ -15,7 +15,7 @@ export default async function page({ searchParams }: Props) {
 
   const cookieStore = await cookies();
   const isLoggedIn = !!cookieStore.get("accessToken")?.value;
-  const group = isLoggedIn ? await getInvitationGroup(code) : null;
+  const group = await getInvitationGroup(code);
 
   return (
     <InvitationPage
