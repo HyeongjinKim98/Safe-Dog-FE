@@ -21,7 +21,7 @@ export const LoginPage = () => {
         </div>
 
         <Button
-          className="w-72 rounded-full h-12 mt-12 bg-primary-600 hover:bg-primary-300"
+          className="w-72 rounded-full h-12 mt-12"
           onClick={() => {
             router.push("/home");
           }}
